@@ -20,5 +20,5 @@ public class EmfMatchComparator extends BaseMatchComparator<EmfMatch, RailwayEle
 	public EmfMatchComparator() {
 		super(new RailwayElementComparator());
 	}
-	
+
 }
