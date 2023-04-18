@@ -1,0 +1,8 @@
+dependencies {
+    compile project(':trainbenchmark-config')
+    compile group: 'com.vaticle.typedb', name: 'typedb-client', version: typedbVersion
+}
+
+//task wrapper(type: Wrapper){
+//    gradleVersion = '7.2'
+//}

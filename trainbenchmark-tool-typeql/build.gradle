@@ -1,0 +1,40 @@
+//plugins {
+//    id 'java'
+//}
+//
+//group 'hu.bme.mit.trainbenchmark'
+//version '1.0.0-SNAPSHOT'
+//
+//repositories {
+//    mavenCentral()
+//}
+//
+//dependencies {
+//    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+//    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+//}
+//
+//test {
+//    useJUnitPlatform()
+//}
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    classifier = 'fat'
+    manifest { attributes 'Main-Class': 'hu.bme.mit.trainbenchmark.benchmark.typeql.TypeQLBenchmarkMain' }
+}
+
+dependencies {
+    compile project(':trainbenchmark-tool')
+    compile project(':trainbenchmark-format-typeql')
+    //compile project(':trainbenchmark-generator-typeql')
+    //compile group: 'com.vaticle.typedb', name: 'typedb-client', version: typedbVersion
+}
+
+//task wrapper(type: Wrapper){
+//    gradleVersion = '7.2'
+//}
+
+test {
+    useJUnitPlatform()
+}
