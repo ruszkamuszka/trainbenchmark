@@ -16,6 +16,7 @@ dependencies {
 //	compile project(':trainbenchmark-tool-sqlite')
 //	compile project(':trainbenchmark-tool-tinkergraph')
 //	compile project(':trainbenchmark-tool-viatra')
+	compile project(':trainbenchmark-tool-typeql')
 }
 
 sourceSets {
@@ -81,6 +82,7 @@ task individualBenchmark(dependsOn: 'classes', type: JavaExec) {
 //benchmark.dependsOn(':trainbenchmark-tool-sqlite:shadowJar')
 //benchmark.dependsOn(':trainbenchmark-tool-tinkergraph:shadowJar')
 //benchmark.dependsOn(':trainbenchmark-tool-viatra:shadowJar')
+benchmark.dependsOn(':trainbenchmark-tool-typeql:shadowJar')
 //
 //individualBenchmark.dependsOn(':trainbenchmark-tool-emfapi:shadowJar')
 //individualBenchmark.dependsOn(':trainbenchmark-tool-jena:shadowJar')
