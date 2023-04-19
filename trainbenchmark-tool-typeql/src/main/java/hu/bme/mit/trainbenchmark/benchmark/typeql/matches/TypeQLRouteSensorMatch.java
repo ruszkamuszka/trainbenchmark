@@ -1,4 +1,4 @@
-package hu.bme.mit.trainbenchmark.typeql.matches;
+package hu.bme.mit.trainbenchmark.benchmark.typeql.matches;
 
 import hu.bme.mit.trainbenchmark.benchmark.matches.RouteSensorMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;

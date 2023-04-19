@@ -1,4 +1,4 @@
-package hu.bme.mit.trainbenchmark.typeql.config;
+package hu.bme.mit.trainbenchmark.benchmark.typeql.config;
 
 public enum TypeQLEngine {
 

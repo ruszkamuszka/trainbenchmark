@@ -1,22 +1,16 @@
-package hu.bme.mit.trainbenchmark.typeql.operations;
+package hu.bme.mit.trainbenchmark.benchmark.typeql.operations;
 
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelOperation;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelOperationFactory;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelQuery;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.constants.RailwayOperation;
-import hu.bme.mit.trainbenchmark.typeql.config.TypeQLEngine;
-import hu.bme.mit.trainbenchmark.typeql.driver.TypeQLDriver;
-import hu.bme.mit.trainbenchmark.typeql.matches.TypeQLMatch;
-import hu.bme.mit.trainbenchmark.typeql.matches.TypeQLRouteSensorMatch;
-import hu.bme.mit.trainbenchmark.typeql.queries.storage.TypeQLRouteSensor;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.config.TypeQLEngine;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLMatch;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.TypeQLRouteSensor;
 
 public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMatch, TypeQLDriver> {
-
-	protected TypeQLEngine engine;
-	public TypeQLModelOperationFactory(final TypeQLEngine engine) {
-		this.engine=engine;
-	}
-
 	@Override
 	public ModelOperation<? extends TypeQLMatch, TypeQLDriver> createOperation(final RailwayOperation operationEnum, final String workspaceDir, final TypeQLDriver driver) throws Exception {
 		switch (operationEnum) {
@@ -65,6 +59,6 @@ public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMat
 			case SWITCHSET_REPAIR:
 				break;
 		}
-		throw new UnsupportedOperationException("Operation " + operationEnum + " not supported for Neo4j engine " + engine + ".");
+		throw new UnsupportedOperationException("Operation " + operationEnum + " not supported.");
 	}
 }

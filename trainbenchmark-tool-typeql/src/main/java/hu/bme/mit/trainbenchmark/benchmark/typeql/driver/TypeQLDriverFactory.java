@@ -1,4 +1,4 @@
-package hu.bme.mit.trainbenchmark.typeql.driver;
+package hu.bme.mit.trainbenchmark.benchmark.typeql.driver;
 
 import hu.bme.mit.trainbenchmark.benchmark.driver.DriverFactory;
 

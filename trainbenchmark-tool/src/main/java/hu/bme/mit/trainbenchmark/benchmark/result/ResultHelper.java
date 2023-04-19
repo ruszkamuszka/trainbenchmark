@@ -49,8 +49,9 @@ public final class ResultHelper {
 			Path recent = Paths.get(WORKSPACE_DIR, RESULT_DIR, "recent");
 			try {
 				Files.deleteIfExists(recent);
-				Files.createSymbolicLink(recent, Paths.get(dir));
+				//Files.createSymbolicLink(recent, Paths.get(dir));
 			} catch (IOException e) {
+				System.out.println(dir);
 				e.printStackTrace();
 			}
 		} else {

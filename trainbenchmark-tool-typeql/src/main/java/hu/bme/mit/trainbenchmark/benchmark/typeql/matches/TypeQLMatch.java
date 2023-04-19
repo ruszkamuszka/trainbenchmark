@@ -1,4 +1,4 @@
-package hu.bme.mit.trainbenchmark.typeql.matches;
+package hu.bme.mit.trainbenchmark.benchmark.typeql.matches;
 
 import hu.bme.mit.trainbenchmark.benchmark.matches.BaseMatch;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;

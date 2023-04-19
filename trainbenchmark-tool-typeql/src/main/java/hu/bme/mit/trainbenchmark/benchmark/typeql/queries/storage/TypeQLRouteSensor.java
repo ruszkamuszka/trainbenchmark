@@ -1,11 +1,11 @@
-package hu.bme.mit.trainbenchmark.typeql.queries.storage;
+package hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage;
 
 import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.query.TypeQLMatch;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
-import hu.bme.mit.trainbenchmark.typeql.driver.TypeQLDriver;
-import hu.bme.mit.trainbenchmark.typeql.matches.TypeQLRouteSensorMatch;
 
 import java.util.Collection;
 import java.util.stream.Stream;

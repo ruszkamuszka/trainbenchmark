@@ -1,4 +1,4 @@
-package hu.bme.mit.trainbenchmark.typeql.driver;
+package hu.bme.mit.trainbenchmark.benchmark.typeql.driver;
 
 import com.vaticle.typedb.client.TypeDB;
 import com.vaticle.typedb.client.api.TypeDBClient;

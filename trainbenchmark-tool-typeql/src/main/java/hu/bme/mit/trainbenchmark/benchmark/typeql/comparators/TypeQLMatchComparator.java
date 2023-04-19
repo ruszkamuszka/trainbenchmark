@@ -1,8 +1,8 @@
-package hu.bme.mit.trainbenchmark.typeql.comparators;
+package hu.bme.mit.trainbenchmark.benchmark.typeql.comparators;
 
 import com.vaticle.typeql.lang.common.TypeQLToken;
 import hu.bme.mit.trainbenchmark.benchmark.matches.comparators.BaseMatchComparator;
-import hu.bme.mit.trainbenchmark.typeql.matches.TypeQLMatch;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLMatch;
 
 public class TypeQLMatchComparator extends BaseMatchComparator<TypeQLMatch, TypeQLToken> {
 	public TypeQLMatchComparator() {
