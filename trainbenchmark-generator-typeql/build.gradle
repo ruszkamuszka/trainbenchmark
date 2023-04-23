@@ -1,0 +1,12 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    classifier = 'fat'
+    manifest { attributes 'Main-Class': 'hu.bme.mit.trainbenchmark.generator.typeql.TypeQLGeneratorMain' }
+}
+
+dependencies {
+    compile project(':trainbenchmark-generator')
+    compile project(':trainbenchmark-format-typeql')
+    //compile group: 'com.vaticle.typedb', name: 'typedb-client', version: typedbVersion
+}

@@ -33,4 +33,5 @@ include ':trainbenchmark-tool'
 //include ':trainbenchmark-tool-viatra-patterns'
 include 'trainbenchmark-tool-typeql'
 include 'trainbenchmark-format-typeql'
+include 'trainbenchmark-generator-typeql'
 
