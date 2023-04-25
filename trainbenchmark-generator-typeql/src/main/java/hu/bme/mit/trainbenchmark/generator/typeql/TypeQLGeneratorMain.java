@@ -10,8 +10,6 @@ import java.io.FileNotFoundException;
 
 public class TypeQLGeneratorMain {
 	public static void main(String[] args) throws FileNotFoundException {
-		final TypeQLProcess typeQLProcess = new TypeQLProcess();
-		typeQLProcess.setupDB();
 		final TypeQLGeneratorConfig gc = GeneratorConfig.fromFile(args[0], TypeQLGeneratorConfig.class);
 		final TypeQLSerializer typeQLSerializer = new TypeQLSerializer(gc);
 		final ModelGenerator generator = ScalableGeneratorFactory.createGenerator(typeQLSerializer, gc);

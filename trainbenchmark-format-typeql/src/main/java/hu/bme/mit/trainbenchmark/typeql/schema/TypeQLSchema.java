@@ -11,7 +11,7 @@ import static com.vaticle.typeql.lang.TypeQL.type;
 public class TypeQLSchema {
 	public void writeSchema(TypeDBSession session){
 		try{
-			// creating a write transaction
+			// creating write transaction
 			TypeDBTransaction writeTransaction = session.transaction(TypeDBTransaction.Type.WRITE);
 			// write transaction is open
 			// write transaction must always be committed (closed)

@@ -9,6 +9,7 @@ import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.query.TypeQLInsert;
 import hu.bme.mit.trainbenchmark.generator.ModelSerializer;
 import hu.bme.mit.trainbenchmark.generator.typeql.config.TypeQLGeneratorConfig;
+import hu.bme.mit.trainbenchmark.typeql.process.TypeQLProcess;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -37,6 +38,9 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 
 	@Override
 	public void initModel() throws IOException {
+		final TypeQLProcess typeQLProcess = new TypeQLProcess("TRAIN0423");
+		typeQLProcess.checkExistence();
+		typeQLProcess.setupDB();
 		client = TypeDB.coreClient("localhost:1729");
 		session = client.session("TRAIN0423", TypeDBSession.Type.DATA);
 	}
@@ -44,13 +48,8 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 	@Override
 	public void persistModel() throws Exception {
 		session.close();
+		client.close();
 	}
-
-//	@Override
-//	public void endTransaction(){
-//		session.close();
-//		client.close();
-//	}
 
 	@Override
 	public Object createVertex(int variable, String type, final Map<String, ?> attributes, Map<String, Object> outgoingEdges, Map<String, Object> incomingEdges) throws IOException{
@@ -133,9 +132,6 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 			).insert(
 				var(label).rel(SWITCH, from.toString()).rel(SENSOR, to.toString()).isa(label)
 			);
-			//var result = writeTransaction.query().insert(query);
-			//result.forEach(x -> print(x));
-			//System.out.println(result);
 			writeTransaction.query().insert(query);
 			writeTransaction.commit();
 		}
