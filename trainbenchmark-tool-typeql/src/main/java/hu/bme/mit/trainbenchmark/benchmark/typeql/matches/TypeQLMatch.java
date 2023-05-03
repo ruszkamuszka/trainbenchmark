@@ -20,39 +20,20 @@ public abstract class TypeQLMatch extends BaseMatch {
 	}
 	public static TypeQLMatch createMatch(final RailwayQuery query, final Map<String, Object> match) throws Exception {
 		switch (query) {
-			case ACTIVEROUTE:
-				break;
 			case CONNECTEDSEGMENTS:
-				break;
+				return new TypeQLConnectedSegmentsMatch(match);
 			case POSLENGTH:
-				break;
-			case ROUTEREACHABILITY:
-				break;
-			case ROUTELENGTH:
-				break;
+				return new TypeQLPosLengthMatch(match);
 			case ROUTESENSOR:
 				return new TypeQLRouteSensorMatch(match);
 			case SEMAPHORENEIGHBOR:
-				break;
+				return new TypeQLSemaphoreNeighborMatch(match);
 			case SWITCHMONITORED:
-				break;
+				return new TypeQLSwitchMonitoredMatch(match);
 			case SWITCHSET:
-				break;
-			case CONNECTEDSEGMENTS_INJECT:
-				break;
-			case POSLENGTH_INJECT:
-				break;
-			case ROUTESENSOR_INJECT:
-				break;
-			case SEMAPHORENEIGHBOR_INJECT:
-				break;
-			case SWITCHMONITORED_INJECT:
-				break;
-			case SWITCHSET_INJECT:
-				break;
+				return new TypeQLSwitchSetMatch(match);
 			default:
 				throw new UnsupportedOperationException("Query not supported: " + query);
 		}
-		return null;
 	}
 }
