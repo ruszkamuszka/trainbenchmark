@@ -8,6 +8,7 @@ import com.vaticle.typeql.lang.query.TypeQLDefine;
 
 import static com.vaticle.typeql.lang.TypeQL.type;
 
+
 public class TypeQLSchema {
 	public void writeSchema(TypeDBSession session){
 		try{
@@ -18,19 +19,14 @@ public class TypeQLSchema {
 
 			TypeQLDefine query = TypeQL.define(
 				//attributes
-				type("id").sub("attribute").value(TypeQLArg.ValueType.LONG),
-				type("position").sub("attribute").value(TypeQLArg.ValueType.STRING),
-				type("active").sub("attribute").value(TypeQLArg.ValueType.STRING),
+				type("id").sub("attribute").value(TypeQLArg.ValueType.LONG), //ok
+				type("position").sub("attribute").value(TypeQLArg.ValueType.STRING), //ok
+				type("active").sub("attribute").value(TypeQLArg.ValueType.BOOLEAN), //ok
 				type("currentPosition").sub("attribute").value(TypeQLArg.ValueType.STRING),
-				type("entry").sub("attribute").value(TypeQLArg.ValueType.STRING),
-				type("exit").sub("attribute").value(TypeQLArg.ValueType.STRING),
-				type("length").sub("attribute").value(TypeQLArg.ValueType.STRING),
+				type("entry").sub("attribute").value(TypeQLArg.ValueType.BOOLEAN), //ok
+				type("exit").sub("attribute").value(TypeQLArg.ValueType.BOOLEAN),	//ok
+				type("length").sub("attribute").value(TypeQLArg.ValueType.LONG),	//ok
 				type("signal").sub("attribute").value(TypeQLArg.ValueType.STRING),
-
-				/*type("GO").sub("attribute").value(TypeQLArg.ValueType.BOOLEAN),
-				type("FAILURE").sub("attribute").value(TypeQLArg.ValueType.BOOLEAN),
-				type("STOP").sub("attribute").value(TypeQLArg.ValueType.BOOLEAN),*/
-
 				type("target").sub("attribute").value(TypeQLArg.ValueType.STRING),
 				//name to the reverse edges
 				type("name").sub("attribute").value(TypeQLArg.ValueType.STRING),
@@ -43,7 +39,8 @@ public class TypeQLSchema {
 					.plays("requires", "Route")
 					.plays("follows", "Route"),
 				type("Segment").sub("entity")
-					.owns("id", true).owns("length")
+					.owns("id", true)
+					.owns("length")
 					.plays("connectsTo", "Segment")
 					.plays("elements", "Segment")
 					.plays("semaphores", "Segment"),
@@ -62,11 +59,13 @@ public class TypeQLSchema {
 					.plays("requires","Sensor")
 					.plays("sensors", "Sensor"),
 				type("Switch").sub("entity")
-					.owns("id", true).owns("currentPosition")
+					.owns("id", true)
+					.owns("currentPosition")
 					.plays("connectsTo", "Switch")
 					.plays("monitoredBy","Switch"),
-				type("SwitchPosition").sub("entity").owns("id", true)
-					.owns("currentPosition")
+				type("SwitchPosition").sub("entity")
+					.owns("id", true)
+					.owns("position") //here changed
 					.owns("target")
 					.plays("follows", "SwitchPosition"),
 				type("TrackElement").sub("entity").owns("id", true),

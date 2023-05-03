@@ -14,12 +14,12 @@ public class TypeQLDriver extends Driver {
 	@Override
 	public void read(String modelPath) throws Exception {
 		client = TypeDB.coreClient("localhost:1729");
-		if(!client.databases().contains("Train2")){
-			System.out.println("The Train2 database does not exist!");
+		if(!client.databases().contains("Train0502")){
+			System.out.println("The Train0502 database does not exist!");
 		}else{
 			System.out.println("Connection succeeded!");
 		}
-		session = client.session("Train2", TypeDBSession.Type.DATA);
+		session = client.session("Train0502", TypeDBSession.Type.DATA);
 		transaction = session.transaction(TypeDBTransaction.Type.READ);
 	}
 

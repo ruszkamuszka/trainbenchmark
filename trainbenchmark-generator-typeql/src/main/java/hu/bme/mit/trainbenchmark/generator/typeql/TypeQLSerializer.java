@@ -38,11 +38,11 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 
 	@Override
 	public void initModel() throws IOException {
-		final TypeQLProcess typeQLProcess = new TypeQLProcess("TRAIN0423");
+		final TypeQLProcess typeQLProcess = new TypeQLProcess("TRAIN0502");
 		typeQLProcess.checkExistence();
 		typeQLProcess.setupDB();
 		client = TypeDB.coreClient("localhost:1729");
-		session = client.session("TRAIN0423", TypeDBSession.Type.DATA);
+		session = client.session("TRAIN0502", TypeDBSession.Type.DATA);
 	}
 
 	@Override
@@ -58,29 +58,29 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 			case "Route":
 				String str = type+variable;
 				Collection collection = attributes.values();
-				String first = collection.iterator().next().toString();
-				String second = collection.iterator().next().toString();
-				String third = collection.iterator().next().toString();
+				boolean active = (boolean) collection.iterator().next();
+				boolean entry = (boolean) collection.iterator().next();
+				boolean exit = (boolean) collection.iterator().next();
 				writeTransaction = session.transaction(TypeDBTransaction.Type.WRITE);
-				TypeQLInsert insertQuery = TypeQL.insert(var(str).isa(type).has("id",nextID).has("active", first).has("entry", second).has("exit", third));
+				TypeQLInsert insertQuery = TypeQL.insert(var(str).isa(type).has("id",nextID).has("active", active).has("entry", entry).has("exit", exit));
 				writeTransaction.query().insert(insertQuery);
 				writeTransaction.commit();
 				return nextID;
 			case "Segment":
 				String str1 = type+variable;
 				Collection collection1 = attributes.values();
-				String first1 = collection1.iterator().next().toString();
+				Integer length = (Integer) collection1.iterator().next();
 				writeTransaction = session.transaction(TypeDBTransaction.Type.WRITE);
-				TypeQLInsert insertQuery1 = TypeQL.insert(var(str1).isa(type).has("id",nextID).has("length", first1));
+				TypeQLInsert insertQuery1 = TypeQL.insert(var(str1).isa(type).has("id",nextID).has("length", length));
 				writeTransaction.query().insert(insertQuery1);
 				writeTransaction.commit();
 				return nextID;
 			case "Semaphore":
 				String str2 = type+variable;
 				Collection collection2 = attributes.values();
-				String first2 = collection2.iterator().next().toString();
+				String signal = collection2.iterator().next().toString();
 				writeTransaction = session.transaction(TypeDBTransaction.Type.WRITE);
-				TypeQLInsert insertQuery2 = TypeQL.insert(var(str2).isa(type).has("id",nextID).has("signal", first2));
+				TypeQLInsert insertQuery2 = TypeQL.insert(var(str2).isa(type).has("id",nextID).has("signal", signal));
 				writeTransaction.query().insert(insertQuery2);
 				writeTransaction.commit();
 				return nextID;
@@ -96,19 +96,19 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 			case "Switch":
 				String str4 = type+variable;
 				Collection collection4 = attributes.values();
-				String first4 = collection4.iterator().next().toString();
+				String currentPosition = collection4.iterator().next().toString();
 				writeTransaction = session.transaction(TypeDBTransaction.Type.WRITE);
-				TypeQLInsert insertQuery4 = TypeQL.insert(var(str4).isa(type).has("id",nextID).has("currentPosition", first4));
+				TypeQLInsert insertQuery4 = TypeQL.insert(var(str4).isa(type).has("id", nextID).has("currentPosition", currentPosition));
 				writeTransaction.query().insert(insertQuery4);
 				writeTransaction.commit();
 				return nextID;
 			case "SwitchPosition":
 				String str5 = type+variable;
 				Collection collection5 = attributes.values();
-				String first5 = collection5.iterator().next().toString();
-				String second5 = collection5.iterator().next().toString();
+				String position = collection5.iterator().next().toString();
+				String target = collection5.iterator().next().toString();
 				writeTransaction = session.transaction(TypeDBTransaction.Type.WRITE);
-				TypeQLInsert insertQuery5 = TypeQL.insert(var(str5).isa(type).has("id",nextID).has("currentPosition",first5).has("target",second5));
+				TypeQLInsert insertQuery5 = TypeQL.insert(var(str5).isa(type).has("id",nextID).has("position", position).has("target", target));
 				writeTransaction.query().insert(insertQuery5);
 				writeTransaction.commit();
 				return nextID;
