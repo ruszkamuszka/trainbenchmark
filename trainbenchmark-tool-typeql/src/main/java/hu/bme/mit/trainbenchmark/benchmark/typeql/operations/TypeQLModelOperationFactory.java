@@ -3,16 +3,11 @@ package hu.bme.mit.trainbenchmark.benchmark.typeql.operations;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelOperation;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelOperationFactory;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelQuery;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLConnectedSegmentsMatch;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLPosLengthMatch;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLRouteSensorMatch;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.TypeQLConnectedSegments;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.TypeQLPosLength;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.*;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.*;
 import hu.bme.mit.trainbenchmark.constants.RailwayOperation;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.config.TypeQLEngine;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLMatch;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.TypeQLRouteSensor;
 
 public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMatch, TypeQLDriver> {
 	@Override
@@ -25,29 +20,35 @@ public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMat
 				final ModelOperation<TypeQLConnectedSegmentsMatch, TypeQLDriver> operation1 = ModelOperation.of(query1);
 				return operation1;
 			case POSLENGTH:
-//				final ModelQuery<TypeQLPosLengthMatch, TypeQLDriver> query2 = new TypeQLPosLength(driver);
-//				final ModelOperation<TypeQLPosLengthMatch, TypeQLDriver> operation2 = ModelOperation.of(query2);
-//				return operation2;
+				final ModelQuery<TypeQLPosLengthMatch, TypeQLDriver> query2 = new TypeQLPosLength(driver);
+				final ModelOperation<TypeQLPosLengthMatch, TypeQLDriver> operation2 = ModelOperation.of(query2);
+				return operation2;
 //			case ROUTELENGTH:
 //				break;
 //			case ROUTEREACHABILITY:
 //				break;
 			case ROUTESENSOR:
-				final ModelQuery<TypeQLRouteSensorMatch, TypeQLDriver> query = new TypeQLRouteSensor(driver);
-				final ModelOperation<TypeQLRouteSensorMatch, TypeQLDriver> operation = ModelOperation.of(query);
-				return operation;
+				final ModelQuery<TypeQLRouteSensorMatch, TypeQLDriver> query3 = new TypeQLRouteSensor(driver);
+				final ModelOperation<TypeQLRouteSensorMatch, TypeQLDriver> operation3 = ModelOperation.of(query3);
+				return operation3;
 			case SEMAPHORENEIGHBOR:
 				break;
 			case SWITCHMONITORED:
 				break;
 			case SWITCHSET:
 				break;
-//			case CONNECTEDSEGMENTS_INJECT:
-//				break;
-//			case POSLENGTH_INJECT:
-//				break;
-//			case ROUTESENSOR_INJECT:
-//				break;
+			case CONNECTEDSEGMENTS_INJECT:
+				final ModelQuery<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> query4 = new TypeQLConnectedSegmentsInject(driver);
+				final ModelOperation<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> operation4 = ModelOperation.of(query4);
+				return operation4;
+			case POSLENGTH_INJECT:
+				final ModelQuery<TypeQLPosLengthInjectMatch, TypeQLDriver> query5 = new TypeQLPosLengthInject(driver);
+				final ModelOperation<TypeQLPosLengthInjectMatch, TypeQLDriver> operation5 = ModelOperation.of(query5);
+				return operation5;
+			case ROUTESENSOR_INJECT:
+				final ModelQuery<TypeQLRouteSensorInjectMatch, TypeQLDriver> query6 = new TypeQLRouteSensorInject(driver);
+				final ModelOperation<TypeQLRouteSensorInjectMatch, TypeQLDriver> operation6 = ModelOperation.of(query6);
+				return operation6;
 //			case SEMAPHORENEIGHBOR_INJECT:
 //				break;
 //			case SWITCHMONITORED_INJECT:

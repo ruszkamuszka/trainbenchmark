@@ -1,7 +1,6 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.matches;
 
 import hu.bme.mit.trainbenchmark.benchmark.matches.ConnectedSegmentsMatch;
-import hu.bme.mit.trainbenchmark.benchmark.matches.RouteSensorMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 
 import java.util.Map;

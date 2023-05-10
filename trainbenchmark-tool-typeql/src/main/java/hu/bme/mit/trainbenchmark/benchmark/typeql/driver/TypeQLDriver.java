@@ -5,6 +5,10 @@ import com.vaticle.typedb.client.api.TypeDBClient;
 import com.vaticle.typedb.client.api.TypeDBSession;
 import com.vaticle.typedb.client.api.TypeDBTransaction;
 import hu.bme.mit.trainbenchmark.benchmark.driver.Driver;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLMatch;
+import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
+
+import java.util.Collection;
 
 public class TypeQLDriver extends Driver {
 	TypeDBClient client;
@@ -26,6 +30,12 @@ public class TypeQLDriver extends Driver {
 	public TypeDBTransaction getTransaction(){
 		return transaction;
 	}
+
+//	public Collection<? extends TypeQLMatch> runQuery(final RailwayQuery query, final String queryDefinition){
+//
+//
+//		return
+//	}
 
 	@Override
 	public String getPostfix() {

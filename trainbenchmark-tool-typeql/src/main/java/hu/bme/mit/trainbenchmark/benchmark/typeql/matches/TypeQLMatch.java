@@ -22,8 +22,12 @@ public abstract class TypeQLMatch extends BaseMatch {
 		switch (query) {
 			case CONNECTEDSEGMENTS:
 				return new TypeQLConnectedSegmentsMatch(match);
+			case CONNECTEDSEGMENTS_INJECT:
+				return new TypeQLConnectedSegmentsInjectMatch(match);
 			case POSLENGTH:
 				return new TypeQLPosLengthMatch(match);
+			case POSLENGTH_INJECT:
+				return new TypeQLPosLengthInjectMatch(match);
 			case ROUTESENSOR:
 				return new TypeQLRouteSensorMatch(match);
 			case SEMAPHORENEIGHBOR:

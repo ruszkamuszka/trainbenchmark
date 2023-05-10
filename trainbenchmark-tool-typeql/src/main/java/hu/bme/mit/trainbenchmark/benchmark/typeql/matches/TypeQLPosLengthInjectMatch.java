@@ -1,12 +1,12 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.matches;
 
-import hu.bme.mit.trainbenchmark.benchmark.matches.PosLengthMatch;
+import hu.bme.mit.trainbenchmark.benchmark.matches.PosLengthInjectMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 
 import java.util.Map;
 
-public class TypeQLPosLengthMatch extends TypeQLMatch implements PosLengthMatch {
-	public TypeQLPosLengthMatch(Map<String, Object> match) {
+public class TypeQLPosLengthInjectMatch extends TypeQLMatch implements PosLengthInjectMatch {
+	public TypeQLPosLengthInjectMatch(Map<String, Object> match) {
 		super(match);
 	}
 
