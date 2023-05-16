@@ -4,7 +4,6 @@ import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLConnectedSegmentsMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSemaphoreNeighborMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
@@ -45,7 +44,7 @@ public class TypeQLSemaphoreNeighbor extends TypeQLMainQuery<TypeQLSemaphoreNeig
 			).get("semaphore", "route1ID", "route2ID", "sensor1ID", "sensor2ID", "te1", "te2");
 
 		Stream<ConceptMap> results = driver.getTransaction().query().match(query);
-		results.forEach(result -> System.out.println(result.get("sid").asThing().getIID()));
+		//results.forEach(result -> System.out.println(result.get("sid").asThing().getIID()));
 		driver.finishTransaction();
 		return results;
 	}

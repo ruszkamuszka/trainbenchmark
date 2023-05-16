@@ -4,7 +4,6 @@ import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLPosLengthMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
@@ -29,23 +28,23 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 
 		TypeQLMatch getQuery = TypeQL.match(
 			var("route").isa("Route").has("id", var("routeID")),
+			not(
+				var()
+					.rel("Route", var("route"))
+					.rel("Sensor", var("sensorx")) //hiba esetén más változó adása
+					.isa("requires")
+			),
 			var("sensor").isa("Sensor").has("id", var("sensorID")),
 			var("switch").isa("Switch").has("id", var("switchID")),
 			var().rel("Sensor", var("sensor")).rel("Switch", var("switch")).isa("monitoredBy"),
 			var("switchPosition").isa("SwitchPosition").has("id", var("swpID")),
 			var("swpID").eq("switchID"),
-			var().rel("Route", var("route")).rel("SwitchPosition", var("switchPosition")).isa("follows"),
-			not(
-				var()
-					.rel("Route", var("route"))
-					.rel("Sensor", var("sensor"))
-					.isa("requires")
-			)
+			var().rel("Route", var("route")).rel("SwitchPosition", var("switchPosition")).isa("follows")
 			).get("routeID", "sensorID", "switchID");
 
 
 		Stream<ConceptMap> results = driver.getTransaction().query().match(getQuery);
-		results.forEach(result -> System.out.println(result.get("rq").asThing().getIID()));
+		//results.forEach(result -> System.out.println(result.get("rq").asThing().getIID()));
 		driver.finishTransaction();
 		return results;
 	}

@@ -5,7 +5,6 @@ import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLConnectedSegmentsInjectMatch;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLConnectedSegmentsMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
@@ -39,7 +38,7 @@ public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnect
 
 
 		Stream<ConceptMap> results = driver.getTransaction().query().match(getQuery);
-		results.forEach(result -> System.out.println(result.get("s").asThing().getIID()));
+		//results.forEach(result -> System.out.println(result.get("s").asThing().getIID()));
 		driver.finishTransaction();
 		return results;
 	}

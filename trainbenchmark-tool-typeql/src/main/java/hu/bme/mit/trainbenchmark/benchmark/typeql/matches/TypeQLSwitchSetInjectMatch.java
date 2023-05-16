@@ -1,12 +1,12 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.matches;
 
-import hu.bme.mit.trainbenchmark.benchmark.matches.SwitchMonitoredMatch;
+import hu.bme.mit.trainbenchmark.benchmark.matches.SwitchSetInjectMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 
 import java.util.Map;
 
-public class TypeQLSwitchMonitoredMatch extends TypeQLMatch implements SwitchMonitoredMatch {
-	public TypeQLSwitchMonitoredMatch(Map<String, Object> match) {
+public class TypeQLSwitchSetInjectMatch extends TypeQLMatch implements SwitchSetInjectMatch {
+	public TypeQLSwitchSetInjectMatch(Map<String, Object> match) {
 		super(match);
 	}
 

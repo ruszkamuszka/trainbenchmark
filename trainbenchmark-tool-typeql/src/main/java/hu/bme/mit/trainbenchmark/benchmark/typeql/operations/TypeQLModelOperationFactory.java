@@ -17,44 +17,44 @@ public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMat
 //				break;
 			case CONNECTEDSEGMENTS:
 				final ModelQuery<TypeQLConnectedSegmentsMatch, TypeQLDriver> query1 = new TypeQLConnectedSegments(driver);
-				final ModelOperation<TypeQLConnectedSegmentsMatch, TypeQLDriver> operation1 = ModelOperation.of(query1);
-				return operation1;
+				return ModelOperation.of(query1);
 			case POSLENGTH:
 				final ModelQuery<TypeQLPosLengthMatch, TypeQLDriver> query2 = new TypeQLPosLength(driver);
-				final ModelOperation<TypeQLPosLengthMatch, TypeQLDriver> operation2 = ModelOperation.of(query2);
-				return operation2;
+				return ModelOperation.of(query2);
 //			case ROUTELENGTH:
 //				break;
 //			case ROUTEREACHABILITY:
 //				break;
 			case ROUTESENSOR:
 				final ModelQuery<TypeQLRouteSensorMatch, TypeQLDriver> query3 = new TypeQLRouteSensor(driver);
-				final ModelOperation<TypeQLRouteSensorMatch, TypeQLDriver> operation3 = ModelOperation.of(query3);
-				return operation3;
+				return ModelOperation.of(query3);
 			case SEMAPHORENEIGHBOR:
-				break;
+				final ModelQuery<TypeQLSemaphoreNeighborMatch, TypeQLDriver> query4 = new TypeQLSemaphoreNeighbor(driver);
+				return ModelOperation.of(query4);
 			case SWITCHMONITORED:
-				break;
+				final ModelQuery<TypeQLSwitchMonitoredMatch, TypeQLDriver> query5 = new TypeQLSwitchMonitored(driver);
+				return ModelOperation.of(query5);
 			case SWITCHSET:
-				break;
+				final ModelQuery<TypeQLSwitchSetMatch, TypeQLDriver> query6 = new TypeQLSwitchSet(driver);
+				return ModelOperation.of(query6);
 			case CONNECTEDSEGMENTS_INJECT:
-				final ModelQuery<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> query4 = new TypeQLConnectedSegmentsInject(driver);
-				final ModelOperation<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> operation4 = ModelOperation.of(query4);
-				return operation4;
+				final ModelQuery<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> query7 = new TypeQLConnectedSegmentsInject(driver);
+				return ModelOperation.of(query7);
 			case POSLENGTH_INJECT:
-				final ModelQuery<TypeQLPosLengthInjectMatch, TypeQLDriver> query5 = new TypeQLPosLengthInject(driver);
-				final ModelOperation<TypeQLPosLengthInjectMatch, TypeQLDriver> operation5 = ModelOperation.of(query5);
-				return operation5;
+				final ModelQuery<TypeQLPosLengthInjectMatch, TypeQLDriver> query8 = new TypeQLPosLengthInject(driver);
+				return ModelOperation.of(query8);
 			case ROUTESENSOR_INJECT:
-				final ModelQuery<TypeQLRouteSensorInjectMatch, TypeQLDriver> query6 = new TypeQLRouteSensorInject(driver);
-				final ModelOperation<TypeQLRouteSensorInjectMatch, TypeQLDriver> operation6 = ModelOperation.of(query6);
-				return operation6;
-//			case SEMAPHORENEIGHBOR_INJECT:
-//				break;
-//			case SWITCHMONITORED_INJECT:
-//				break;
-//			case SWITCHSET_INJECT:
-//				break;
+				final ModelQuery<TypeQLRouteSensorInjectMatch, TypeQLDriver> query9 = new TypeQLRouteSensorInject(driver);
+				return ModelOperation.of(query9);
+			case SEMAPHORENEIGHBOR_INJECT:
+				final ModelQuery<TypeQLSemaphoreNeighborInjectMatch, TypeQLDriver> query10 = new TypeQLSemaphoreNeighborInject(driver);
+				return ModelOperation.of(query10);
+			case SWITCHMONITORED_INJECT:
+				final ModelQuery<TypeQLSwitchMonitoredInjectMatch, TypeQLDriver> query11 = new TypeQLSwitchMonitoredInject(driver);
+				return ModelOperation.of(query11);
+			case SWITCHSET_INJECT:
+				final ModelQuery<TypeQLSwitchSetInjectMatch, TypeQLDriver> query12 = new TypeQLSwitchSetInject(driver);
+				return ModelOperation.of(query12);
 //			case CONNECTEDSEGMENTS_REPAIR:
 //				break;
 //			case POSLENGTH_REPAIR:

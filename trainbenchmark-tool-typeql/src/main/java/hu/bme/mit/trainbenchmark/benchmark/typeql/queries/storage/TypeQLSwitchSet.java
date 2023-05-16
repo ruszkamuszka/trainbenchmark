@@ -4,11 +4,13 @@ import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSwitchSetInjectMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSwitchSetMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static com.vaticle.typeql.lang.TypeQL.var;
@@ -22,33 +24,29 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 		driver.read("...");
 
 		TypeQLMatch getQuery = TypeQL.match(
-			var("rq").rel("r").rel("s").isa("requires"),
-			var("r").isa("Route").has("id", var("r-id")),
-			var("s").isa("Semaphore").has("id", var("s-id"))
-		).get("rq", "r", "s");
+			var("semaphore").isa("Semaphore").has("id", var("semaphoreID")).has("signal", "GO"),
+			var("signal").eq("GO"),
+			var("route").isa("Route").has("id", var("routeID")).has("active", var("active")),
+			var("switchPosition").isa("SwitchPosition").has("id", var("swP")).has("position", var("position")),
+			var("switch").isa("Switch").has("id", var("sw")).has("currentPosition", var("currentPosition")),
+			var().rel("Route", var("route")).rel("SwitchPosition", var("switchPosition")).isa("follows"),
+			var("currentPosition").neq("position")
+		).get("semaphore", "routeID", "swP", "sw", "position", "currentPosition");
 
 
 		Stream<ConceptMap> results = driver.getTransaction().query().match(getQuery);
-		results.forEach(result -> System.out.println(result.get("rq").asThing().getIID()));
+		//results.forEach(result -> System.out.println(result.get("rq").asThing().getIID()));
 		driver.finishTransaction();
 		return results;
 	}
 
 	@Override
 	public Collection<TypeQLSwitchSetMatch> evaluate() throws Exception {
-		Stream<ConceptMap> conceptMapStream = switchSet();
-		List<TypeQLSwitchSetMatch> switchSetMatches = new ArrayList<>();
-		conceptMapStream.forEach(conceptMap -> {
-			Object semaphore = conceptMap.get("rq").asEntity().getType();
-			Object route = conceptMap.get("r").asEntity().getType();
-			Object swP = conceptMap.get("s").asEntity().getType();
+		return switchSet().map(conceptMap -> {
+			Object switchID = conceptMap.get("switchID").asAttribute().getValue();
 			Map<String, Object> matchMap = new HashMap<>();
-			matchMap.put(QueryConstants.VAR_SEMAPHORE, semaphore);
-			matchMap.put(QueryConstants.VAR_ROUTE, route);
-			matchMap.put(QueryConstants.VAR_SWP, swP);
-			TypeQLSwitchSetMatch switchSetMatch = new TypeQLSwitchSetMatch(matchMap);
-			switchSetMatches.add(switchSetMatch);
-		});
-		return switchSetMatches;
+			matchMap.put(QueryConstants.VAR_SW, switchID);
+			return new TypeQLSwitchSetMatch(matchMap);
+		}).collect(Collectors.toList());
 	}
 }

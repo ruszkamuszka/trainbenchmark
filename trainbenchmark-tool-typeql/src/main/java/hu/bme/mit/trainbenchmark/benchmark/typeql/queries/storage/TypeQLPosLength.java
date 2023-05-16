@@ -5,7 +5,6 @@ import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLPosLengthMatch;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSwitchSetMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
@@ -30,7 +29,7 @@ public class TypeQLPosLength extends TypeQLMainQuery<TypeQLPosLengthMatch>{
 
 
 		Stream<ConceptMap> results = driver.getTransaction().query().match(getQuery);
-		results.forEach(result -> System.out.println(result.get("s").asThing().getIID()));
+		//results.forEach(result -> System.out.println(result.get("s").asThing().getIID()));
 		driver.finishTransaction();
 		return results;
 	}

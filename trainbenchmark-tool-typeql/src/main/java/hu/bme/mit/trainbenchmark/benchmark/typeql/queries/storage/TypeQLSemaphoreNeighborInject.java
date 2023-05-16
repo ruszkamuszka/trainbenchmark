@@ -4,7 +4,7 @@ import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLRouteSensorInjectMatch;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSemaphoreNeighborInjectMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
@@ -16,19 +16,18 @@ import java.util.stream.Stream;
 
 import static com.vaticle.typeql.lang.TypeQL.var;
 
-public class TypeQLRouteSensorInject extends TypeQLMainQuery<TypeQLRouteSensorInjectMatch>{
-	public TypeQLRouteSensorInject(TypeQLDriver driver) {
-		super(RailwayQuery.ROUTESENSOR_INJECT, driver);
+public class TypeQLSemaphoreNeighborInject extends TypeQLMainQuery<TypeQLSemaphoreNeighborInjectMatch>{
+	public TypeQLSemaphoreNeighborInject(TypeQLDriver driver) {
+		super(RailwayQuery.SEMAPHORENEIGHBOR_INJECT, driver);
 	}
 
-	public Stream<ConceptMap> routeSensorInject() throws Exception{
+	public Stream<ConceptMap> semaphoreNeighborInject() throws Exception{
 		driver.read("...");
 
 		TypeQLMatch.Filtered query = TypeQL.match(
-			var("route").isa("Route").has("id", var("routeID")),
-			var("sensor").isa("Sensor").has("id", var("sensorID")),
-			var().rel("Route", var("route")).rel("Sensor", var("sensor")).isa("requires")
-			).get("routeID", "sensorID");
+			var("route").isa("Route").has("id", var("routeID")).has("entry", var("semaphore")),
+			var("semaphore").eq(true)
+		).get("routeID", "semaphore");
 
 		Stream<ConceptMap> results = driver.getTransaction().query().match(query);
 		//results.forEach(result -> System.out.println(result.get("sid").asThing().getIID()));
@@ -37,14 +36,14 @@ public class TypeQLRouteSensorInject extends TypeQLMainQuery<TypeQLRouteSensorIn
 	}
 
 	@Override
-	public Collection<TypeQLRouteSensorInjectMatch> evaluate() throws Exception {
-		return routeSensorInject().map(conceptMap -> {
+	public Collection<TypeQLSemaphoreNeighborInjectMatch> evaluate() throws Exception {
+		return semaphoreNeighborInject().map(conceptMap -> {
 			Object routeID = conceptMap.get("routeID").asAttribute().getValue();
-			Object sensorID = conceptMap.get("sensorID").asAttribute().getValue();
+			Object semaphore = conceptMap.get("semaphore").asAttribute().getValue();
 			Map<String, Object> matchMap = new HashMap<>();
 			matchMap.put(QueryConstants.VAR_ROUTE, routeID);
-			matchMap.put(QueryConstants.VAR_SENSOR, sensorID);
-			return new TypeQLRouteSensorInjectMatch(matchMap);
+			matchMap.put(QueryConstants.VAR_SEMAPHORE, semaphore);
+			return new TypeQLSemaphoreNeighborInjectMatch(matchMap);
 		}).collect(Collectors.toList());
 	}
 }

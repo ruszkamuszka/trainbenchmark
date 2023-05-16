@@ -1,6 +1,5 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.matches;
 
-import hu.bme.mit.trainbenchmark.benchmark.matches.RouteSensorMatch;
 import hu.bme.mit.trainbenchmark.benchmark.matches.SemaphoreNeighborMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 
