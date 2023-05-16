@@ -15,8 +15,22 @@ public class TypeQLDriver extends Driver {
 	TypeDBSession session;
 	TypeDBTransaction transaction;
 
+	public TypeQLDriver(){
+		super();
+	}
+
 	@Override
 	public void read(String modelPath) throws Exception {
+		transaction = session.transaction(TypeDBTransaction.Type.READ);
+	}
+
+	@Override
+	public void initialize() throws Exception {
+		try{
+			client.close();
+		}catch(final Exception e){
+			//do nothing
+		}
 		client = TypeDB.coreClient("localhost:1729");
 		if(!client.databases().contains("TRAIN0516")){
 			System.out.println("The TRAIN0516 database does not exist!");
@@ -24,27 +38,25 @@ public class TypeQLDriver extends Driver {
 			System.out.println("Connection succeeded!");
 		}
 		session = client.session("TRAIN0516", TypeDBSession.Type.DATA);
-		transaction = session.transaction(TypeDBTransaction.Type.READ);
+	}
+	@Override
+	public void destroy(){
+		session.close();
+		client.close();
 	}
 
 	public TypeDBTransaction getTransaction(){
 		return transaction;
 	}
 
-//	public Collection<? extends TypeQLMatch> runQuery(final RailwayQuery query, final String queryDefinition){
-//
-//
-//		return
-//	}
-
 	@Override
 	public String getPostfix() {
-		return null;
+		return "TypeQL";
 	}
 
 	@Override
-	public Number generateNewVertexId() throws Exception {
-		return null;
+	public Long generateNewVertexId() throws Exception {
+		throw new UnsupportedOperationException();
 	}
 
 	public void beginTransaction() throws Exception {
@@ -54,7 +66,5 @@ public class TypeQLDriver extends Driver {
 	@Override
 	public void finishTransaction(){
 		transaction.close();
-		session.close();
-		client.close();
 	}
 }

@@ -31,7 +31,7 @@ public class TypeQLSemaphoreNeighborInject extends TypeQLMainQuery<TypeQLSemapho
 
 		Stream<ConceptMap> results = driver.getTransaction().query().match(query);
 		//results.forEach(result -> System.out.println(result.get("sid").asThing().getIID()));
-		driver.finishTransaction();
+		//driver.finishTransaction();
 		return results;
 	}
 

@@ -45,7 +45,7 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 
 		Stream<ConceptMap> results = driver.getTransaction().query().match(getQuery);
 		//results.forEach(result -> System.out.println(result.get("rq").asThing().getIID()));
-		driver.finishTransaction();
+		//driver.finishTransaction();
 		return results;
 	}
 
