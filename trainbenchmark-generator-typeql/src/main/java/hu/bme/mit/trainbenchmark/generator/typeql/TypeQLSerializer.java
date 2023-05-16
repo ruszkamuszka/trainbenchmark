@@ -38,11 +38,11 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 
 	@Override
 	public void initModel() throws IOException {
-		final TypeQLProcess typeQLProcess = new TypeQLProcess("TRAIN0502");
+		final TypeQLProcess typeQLProcess = new TypeQLProcess("TRAIN0516");
 		typeQLProcess.checkExistence();
 		typeQLProcess.setupDB();
 		client = TypeDB.coreClient("localhost:1729");
-		session = client.session("TRAIN0502", TypeDBSession.Type.DATA);
+		session = client.session("TRAIN0516", TypeDBSession.Type.DATA);
 	}
 
 	@Override
