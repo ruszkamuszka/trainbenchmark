@@ -35,9 +35,9 @@ public class BenchmarkRunner {
 		final String jarPath = String.format("../%s/build/libs/%s-1.0.0-SNAPSHOT-fat.jar %s", projectName, projectName,
 				configPath);
 
-//		final String javaCommand = String.format("java -Xms%s -Xmx%s -server -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=127.0.0.1:5005 -jar %s %s", ec.getXms(), ec.getXmx(),
-//				jarPath, configPath);
-		final String javaCommand = String.format("java -Xms%s -Xmx%s -server -jar %s %s", ec.getXms(), ec.getXmx(), jarPath, configPath);
+		final String javaCommand = String.format("java -Xms%s -Xmx%s -server -agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=127.0.0.1:5005 -jar %s %s", ec.getXms(), ec.getXmx(),
+				jarPath, configPath);
+//		final String javaCommand = String.format("java -Xms%s -Xmx%s -server -jar %s %s", ec.getXms(), ec.getXmx(), jarPath, configPath);
 //		System.out.println(javaCommand);
 		final CommandLine cmdLine = CommandLine.parse(javaCommand);
 

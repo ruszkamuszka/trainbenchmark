@@ -2,6 +2,7 @@ package hu.bme.mit.trainbenchmark.benchmark.typeql.driver;
 
 import com.vaticle.typedb.client.TypeDB;
 import com.vaticle.typedb.client.api.TypeDBClient;
+import com.vaticle.typedb.client.api.TypeDBOptions;
 import com.vaticle.typedb.client.api.TypeDBSession;
 import com.vaticle.typedb.client.api.TypeDBTransaction;
 import hu.bme.mit.trainbenchmark.benchmark.driver.Driver;
@@ -15,13 +16,17 @@ public class TypeQLDriver extends Driver {
 	TypeDBSession session;
 	TypeDBTransaction transaction;
 
+	TypeDBOptions options;
+
 	public TypeQLDriver(){
 		super();
+		options = TypeDBOptions.core();
+		options.transactionTimeoutMillis(3000000);
 	}
 
 	@Override
 	public void read(String modelPath) throws Exception {
-		transaction = session.transaction(TypeDBTransaction.Type.READ);
+		transaction = session.transaction(TypeDBTransaction.Type.READ, options);
 	}
 
 	@Override
