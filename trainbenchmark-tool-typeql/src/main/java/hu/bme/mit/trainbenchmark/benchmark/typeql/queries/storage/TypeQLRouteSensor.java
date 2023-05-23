@@ -1,21 +1,18 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage;
 
-import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
-import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.vaticle.typeql.lang.TypeQL.not;
-import static com.vaticle.typeql.lang.TypeQL.var;
 
 public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 
@@ -23,43 +20,35 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 		super(RailwayQuery.ROUTESENSOR, driver);
 	}
 
-	public Stream<ConceptMap> routeSensor() throws Exception {
-		driver.read("...");
+	public Map<String, Object> routeSensor() throws Exception {
+		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\RouteSensor.tql";
+		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		String query = new String(fileBytes, StandardCharsets.UTF_8);
 
-		TypeQLMatch getQuery = TypeQL.match(
-			var("route").isa("Route").has("id", var("routeID")),
-			not(
-				var()
-					.rel("Route", var("route"))
-					.rel("Sensor", var("sensorx")) //hiba esetén más változó adása
-					.isa("requires")
-			),
-			var("sensor").isa("Sensor").has("id", var("sensorID")),
-			var("switch").isa("Switch").has("id", var("switchID")),
-			var().rel("Sensor", var("sensor")).rel("Switch", var("switch")).isa("monitoredBy"),
-			var("switchPosition").isa("SwitchPosition").has("id", var("swpID")),
-			var("swpID").eq("switchID"),
-			var().rel("Route", var("route")).rel("SwitchPosition", var("switchPosition")).isa("follows")
-			).get("routeID", "sensorID", "switchID");
-
-
-		Stream<ConceptMap> results = driver.getTransaction().query().match(getQuery);
-		//results.forEach(result -> System.out.println(result.get("rq").asThing().getIID()));
-		//driver.finishTransaction();
-		return results;
+		Map<String, Object> matchMap = new HashMap<>();
+		transaction(t -> {
+			System.out.println("Executing TypeQL Query: " + query);
+			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
+				{
+					matchMap.put(QueryConstants.VAR_ROUTE, result.get("routeID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SENSOR, result.get("sensorID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SWP, result.get("switchPositionID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().asLong().getValue());
+				}
+			);
+		}, "READ");
+		System.out.println("Match size: " +matchMap.size());
+		return matchMap;
 	}
 
 	@Override
 	public Collection<TypeQLRouteSensorMatch> evaluate() throws Exception {
-		return routeSensor().map(conceptMap -> {
-			Object routeID = conceptMap.get("routeID").asAttribute().getValue();
-			Object sensorID = conceptMap.get("sensorID").asAttribute().getValue();
-			Object switchID = conceptMap.get("switchID").asAttribute().getValue();
-			Map<String, Object> matchMap = new HashMap<>();
-			matchMap.put(QueryConstants.VAR_ROUTE, routeID);
-			matchMap.put(QueryConstants.VAR_SENSOR, sensorID);
-			matchMap.put(QueryConstants.VAR_SW, switchID);
-			return new TypeQLRouteSensorMatch(matchMap);
-		}).collect(Collectors.toList());
+		final Collection<TypeQLRouteSensorMatch> matches = new ArrayList<>();
+		Map<String, Object> matchMap = routeSensor();
+		matches.add(new TypeQLRouteSensorMatch(matchMap));
+		for (TypeQLRouteSensorMatch match : matches) {
+			System.out.println("SensorID: "+match.getSensor()); // Print each match element
+		}
+		return matches;
 	}
 }

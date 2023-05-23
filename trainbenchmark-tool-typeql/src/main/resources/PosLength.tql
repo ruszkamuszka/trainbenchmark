@@ -1,0 +1,4 @@
+match
+$segment isa Segment, has id $segmentID, has length $length;
+$length <= 0;
+get $segmentID;

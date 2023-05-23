@@ -1,0 +1,12 @@
+match
+    $route isa Route, has id $routeID;
+    $switchPosition isa SwitchPosition, has id $switchPositionID, has target $target, has position $position;
+    $sensor isa Sensor, has id $sensorID;
+    $switch isa Switch, has id $switchID;
+    $follows(Route: $route, SwitchPosition: $switchPosition) isa follows;
+    $monitoredBy(TrackElement: $switch, Sensor: $sensor) isa monitoredBy;
+    $require(Route: $route, Sensor: $sensor) isa requires;
+    $switchID=$target;
+    limit 1;
+delete
+    $require isa requires;

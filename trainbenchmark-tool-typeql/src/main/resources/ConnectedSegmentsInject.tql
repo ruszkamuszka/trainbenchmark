@@ -1,0 +1,17 @@
+match
+    $sensor isa Sensor, has id $sensorID;
+    $segment1 isa Segment, has id $segment1ID;
+    $segment3 isa Segment, has id $segment3ID;
+    not { $segment1 is $segment3; };
+    $monitoredBy1(TrackElement: $segment1, Sensor: $sensor) isa monitoredBy;
+    $monitoredBy2(TrackElement: $segment3, Sensor: $sensor) isa monitoredBy;
+    $connectsTo1(TrackElement: $segment1, TrackElement: $segment3) isa connectsTo;
+    limit 1;
+delete
+    $connectsTo1 isa connectsTo;
+insert 
+    $segment2 isa Segment, has id 555555;
+    $connectsTo2(TrackElement: $segment1, TrackElement: $segment2) isa connectsTo;    
+    $connectsTo3(TrackElement: $segment2, TrackElement: $segment3) isa connectsTo;
+    $monitoredBy3(TrackElement: $segment2, Sensor: $sensor) isa monitoredBy;
+

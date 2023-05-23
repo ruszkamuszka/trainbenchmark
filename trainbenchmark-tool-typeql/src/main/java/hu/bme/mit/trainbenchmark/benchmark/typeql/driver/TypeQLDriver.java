@@ -6,10 +6,6 @@ import com.vaticle.typedb.client.api.TypeDBOptions;
 import com.vaticle.typedb.client.api.TypeDBSession;
 import com.vaticle.typedb.client.api.TypeDBTransaction;
 import hu.bme.mit.trainbenchmark.benchmark.driver.Driver;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLMatch;
-import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
-
-import java.util.Collection;
 
 public class TypeQLDriver extends Driver {
 	TypeDBClient client;
@@ -37,12 +33,12 @@ public class TypeQLDriver extends Driver {
 			//do nothing
 		}
 		client = TypeDB.coreClient("localhost:1729");
-		if(!client.databases().contains("TRAIN0516")){
-			System.out.println("The TRAIN0516 database does not exist!");
+		if(!client.databases().contains("TRAIN0522")){
+			System.out.println("The TRAIN0522 database does not exist!");
 		}else{
 			System.out.println("Connection succeeded!");
 		}
-		session = client.session("TRAIN0516", TypeDBSession.Type.DATA);
+		session = client.session("TRAIN0522", TypeDBSession.Type.DATA);
 	}
 	@Override
 	public void destroy(){
@@ -64,6 +60,7 @@ public class TypeQLDriver extends Driver {
 		throw new UnsupportedOperationException();
 	}
 
+	@Override
 	public void beginTransaction() throws Exception {
 		read("...");
 	}

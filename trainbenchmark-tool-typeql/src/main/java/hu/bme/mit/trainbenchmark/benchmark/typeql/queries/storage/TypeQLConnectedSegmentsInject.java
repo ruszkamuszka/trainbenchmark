@@ -36,7 +36,7 @@ public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnect
 			var().rel("Segment", var("segment2")).rel("Switch", var("switchOther")).isa("connectsTo")
 		).get("sensorID", "segment1ID", "segment2ID");
 
-
+		System.out.println("EZT NEM KENE LATNOM");
 		Stream<ConceptMap> results = driver.getTransaction().query().match(getQuery);
 		//results.forEach(result -> System.out.println(result.get("s").asThing().getIID()));
 		//driver.finishTransaction();

@@ -6,7 +6,6 @@ import hu.bme.mit.trainbenchmark.benchmark.operations.ModelQuery;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.*;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.*;
 import hu.bme.mit.trainbenchmark.constants.RailwayOperation;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.config.TypeQLEngine;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 
 public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMatch, TypeQLDriver> {

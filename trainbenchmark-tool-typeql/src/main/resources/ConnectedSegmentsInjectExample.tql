@@ -1,0 +1,26 @@
+#Elso
+insert
+$segment2 isa Segment, has id 0;
+
+#Masodik
+match
+    $sensor isa Sensor, has id 24;
+    $segment1 isa Segment, has id 25;
+    $segment3 isa Segment, has id 26;
+    not { $segment1 is $segment3; };
+    $monitoredBy1(TrackElement: $segment1, Sensor: $sensor) isa monitoredBy;
+    $monitoredBy2(TrackElement: $segment3, Sensor: $sensor) isa monitoredBy;
+    $connectsTo1(TrackElement: $segment1, TrackElement: $segment3) isa connectsTo;
+delete
+    $connectsTo1 isa connectsTo;  
+
+#Harmadik
+match
+    $sensor isa Sensor, has id 24;
+    $segment1 isa Segment, has id 25;
+    $segment2 isa Segment, has id 0;
+    $segment3 isa Segment, has id 26;
+insert
+    $connectsTo2(TrackElement: $segment1, TrackElement: $segment2) isa connectsTo;    
+    $connectsTo3(TrackElement: $segment2, TrackElement: $segment3) isa connectsTo;
+    $monitoredBy3(TrackElement: $segment2, Sensor: $sensor) isa monitoredBy;
