@@ -1,0 +1,7 @@
+match
+$te1 isa Segment, has id $a;
+$te2 isa Segment, has id 215;
+$te3 isa Segment, has id $b;
+not {$te1 is $te3; };
+$x($te1, $te2) isa connectsTo;
+$y($te2, $te3) isa connectsTo;

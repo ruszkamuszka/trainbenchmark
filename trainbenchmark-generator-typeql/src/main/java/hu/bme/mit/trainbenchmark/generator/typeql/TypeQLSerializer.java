@@ -58,10 +58,11 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 			case "Route":
 				String str = type+variable;
 				Collection<?> collection = attributes.values();
-				Collection<?> collectionEntry = outgoingEdges.values();
 				boolean active = (boolean) collection.iterator().next();
-				Long entry = (Long) collectionEntry.iterator().next();
-				Long exit = (Long) collectionEntry.iterator().next();
+				Long entry = (Long) outgoingEdges.get(ENTRY);
+				System.out.println("Entry: " + entry);
+				Long exit = (Long) outgoingEdges.get(EXIT);
+				System.out.println("Exit: " + exit);
 				writeTransaction = session.transaction(TypeDBTransaction.Type.WRITE);
 				TypeQLInsert insertQuery = TypeQL.insert(var(str).isa(type).has("id",nextID).has("active", active).has("entry", entry).has("exit", exit));
 				writeTransaction.query().insert(insertQuery);
