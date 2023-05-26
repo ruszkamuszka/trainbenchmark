@@ -50,9 +50,9 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 			final Collection<TypeQLConnectedSegmentsMatch> matches = new ArrayList<>();
 			Map<String, Object> matchMap = connectedSegments();
 			matches.add(new TypeQLConnectedSegmentsMatch(matchMap));
-		for (TypeQLConnectedSegmentsMatch match : matches) {
-			System.out.println("SensorID: "+match.getSensor()); // Print each match element
-		}
+//		for (TypeQLConnectedSegmentsMatch match : matches) {
+//			System.out.println("SensorID: "+match.getSensor()); // Print each match element
+//		}
 			return matches;
 	}
 

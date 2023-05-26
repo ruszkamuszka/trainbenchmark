@@ -17,8 +17,8 @@ public class TypeQLTransformationInjectConnectedSegments<TTypeQLDriver extends T
 		for(final TypeQLConnectedSegmentsInjectMatch match : matches){
 			driver.transaction(t -> {
 				String query = "match" +
-					"    $segment1 isa Segment, has id \""+ match.getSegment1() + "\";" +
-					"    $segment3 isa Segment, has id \""+ match.getSegment3() + "\";" +
+					"    $segment1 isa Segment, has id "+ match.getSegment1() + ";" +
+					"    $segment3 isa Segment, has id "+ match.getSegment3() + ";" +
 					"    $connectsTo1($segment1, $segment3) isa connectsTo;"+
 					"delete" +
 					"    $connectsTo1 isa connectsTo;";
@@ -27,11 +27,11 @@ public class TypeQLTransformationInjectConnectedSegments<TTypeQLDriver extends T
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 
 				query = "match" +
-					"    $sensor isa Sensor, has id \""+ match.getSensor() + "\";" +
-					"    $segment1 isa Segment, has id \""+ match.getSegment1() + "\";" +
-					"    $segment3 isa Segment, has id \""+ match.getSegment3() + "\";" +
+					"    $sensor isa Sensor, has id "+ match.getSensor() + ";" +
+					"    $segment1 isa Segment, has id "+ match.getSegment1() + ";" +
+					"    $segment3 isa Segment, has id "+ match.getSegment3() + ";" +
 					" insert " +
-					"    $segment2 isa Segment, has id \""+ injectID + "\";" +
+					"    $segment2 isa Segment, has id "+ injectID + ";" +
 					"    $connectsTo2($segment1, $segment2) isa connectsTo;" +
 					"    $connectsTo3($segment2, $segment3) isa connectsTo;" +
 					"    $monitoredBy3($segment2, $sensor) isa monitoredBy;";
