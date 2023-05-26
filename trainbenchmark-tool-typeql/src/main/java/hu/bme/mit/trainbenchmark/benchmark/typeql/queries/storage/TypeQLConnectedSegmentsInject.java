@@ -24,10 +24,10 @@ public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnect
 		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
 		Map<String, Object> matchMap = new HashMap<>();
 
-		transaction(t -> {
+		driver.transaction(t -> {
 			String query = new String(fileBytes, StandardCharsets.UTF_8);
 
-			System.out.println("Executing TypeQL Query: " + query);
+			System.out.println("Executing TypeQL Query: ConnectedSegmentsInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_SENSOR , result.get("sensorID").asAttribute().asLong().getValue());
@@ -38,30 +38,7 @@ public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnect
 		}, "READ");
 
 
-		transaction(t -> {
-			String query = "match" +
-				"    $segment1 isa Segment, has id "+ matchMap.get(QueryConstants.VAR_SEGMENT1) + ";" +
-				"    $segment3 isa Segment, has id "+ matchMap.get(QueryConstants.VAR_SEGMENT3) + ";" +
-				"    $connectsTo1($segment1, $segment3) isa connectsTo;"+
-				"delete" +
-				"    $connectsTo1 isa connectsTo;";
 
-			System.out.println("Executing TypeQL Query: " + query);
-			t.query().delete(TypeQL.parseQuery(query).asDelete());
-
-			query = "match" +
-				"    $sensor isa Sensor, has id "+ matchMap.get(QueryConstants.VAR_SENSOR) + "$sensorID;" +
-				"    $segment1 isa Segment, has id "+ matchMap.get(QueryConstants.VAR_SEGMENT1) + ";" +
-				"    $segment3 isa Segment, has id "+ matchMap.get(QueryConstants.VAR_SEGMENT3) + ";" +
-				"insert " +
-				"    $segment2 isa Segment, has id 555555;" +
-				"    $connectsTo2($segment1, $segment2) isa connectsTo;" +
-				"    $connectsTo3($segment2, $segment3) isa connectsTo;" +
-				"    $monitoredBy3($segment2, $sensor) isa monitoredBy;";
-
-			System.out.println("Executing TypeQL Query: " + query);
-			t.query().insert(TypeQL.parseQuery(query).asInsert());
-		}, "WRITE");
 		System.out.println("Match size: " +matchMap.size());
 		return matchMap;
 	}

@@ -27,8 +27,8 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 
 		String query = new String(fileBytes, StandardCharsets.UTF_8);
 		Map<String, Object> matchMap = new HashMap<>();
-		transaction(t -> {
-			System.out.println("Executing TypeQL Query: " + query);
+		driver.transaction(t -> {
+			System.out.println("Executing TypeQL Query: ConnectedSegments");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 					{
 					 	matchMap.put(QueryConstants.VAR_SENSOR , result.get("sensorID").asAttribute().asLong().getValue());

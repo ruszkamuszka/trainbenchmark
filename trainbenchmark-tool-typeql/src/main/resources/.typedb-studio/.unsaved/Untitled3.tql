@@ -1,0 +1,9 @@
+     match
+    $sensor isa Sensor, has id 731;
+    $segment1 isa Segment, has id 735;
+    $segment3 isa Segment, has id 736;
+insert 
+    $segment2 isa Segment, has id -1;
+    $connectsTo2(TrackElement: $segment1, TrackElement: $segment2) isa connectsTo;    
+    $connectsTo3(TrackElement: $segment2, TrackElement: $segment3) isa connectsTo;
+    $monitoredBy3(TrackElement: $segment2, Sensor: $sensor) isa monitoredBy;

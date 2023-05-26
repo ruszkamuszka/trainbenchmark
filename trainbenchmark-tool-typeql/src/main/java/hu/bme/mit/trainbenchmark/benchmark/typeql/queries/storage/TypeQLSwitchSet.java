@@ -25,8 +25,8 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 		String query = new String(fileBytes, StandardCharsets.UTF_8);
 
 		Map<String, Object> matchMap = new HashMap<>();
-		transaction(t -> {
-			System.out.println("Executing TypeQL Query: " + query);
+		driver.transaction(t -> {
+			System.out.println("Executing TypeQL Query: SwitchSet");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_SEMAPHORE, result.get("semaphoreID").asAttribute().asLong().getValue());

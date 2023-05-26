@@ -5,6 +5,8 @@ import hu.bme.mit.trainbenchmark.benchmark.operations.ModelOperationFactory;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelQuery;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.*;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.*;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.TypeQLTransformation;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.inject.TypeQLTransformationInjectConnectedSegments;
 import hu.bme.mit.trainbenchmark.constants.RailwayOperation;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 
@@ -12,18 +14,12 @@ public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMat
 	@Override
 	public ModelOperation<? extends TypeQLMatch, TypeQLDriver> createOperation(final RailwayOperation operationEnum, final String workspaceDir, final TypeQLDriver driver) throws Exception {
 		switch (operationEnum) {
-//			case ACTIVEROUTE:
-//				break;
 			case CONNECTEDSEGMENTS:
 				final ModelQuery<TypeQLConnectedSegmentsMatch, TypeQLDriver> query1 = new TypeQLConnectedSegments(driver);
 				return ModelOperation.of(query1);
 			case POSLENGTH:
 				final ModelQuery<TypeQLPosLengthMatch, TypeQLDriver> query2 = new TypeQLPosLength(driver);
 				return ModelOperation.of(query2);
-//			case ROUTELENGTH:
-//				break;
-//			case ROUTEREACHABILITY:
-//				break;
 			case ROUTESENSOR:
 				final ModelQuery<TypeQLRouteSensorMatch, TypeQLDriver> query3 = new TypeQLRouteSensor(driver);
 				return ModelOperation.of(query3);
@@ -38,7 +34,8 @@ public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMat
 				return ModelOperation.of(query6);
 			case CONNECTEDSEGMENTS_INJECT:
 				final ModelQuery<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> query7 = new TypeQLConnectedSegmentsInject(driver);
-				return ModelOperation.of(query7);
+				final TypeQLTransformation<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> transformation = new TypeQLTransformationInjectConnectedSegments<>(driver);
+				return ModelOperation.of(query7, transformation);
 			case POSLENGTH_INJECT:
 				final ModelQuery<TypeQLPosLengthInjectMatch, TypeQLDriver> query8 = new TypeQLPosLengthInject(driver);
 				return ModelOperation.of(query8);

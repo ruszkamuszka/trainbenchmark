@@ -30,12 +30,20 @@ public abstract class TypeQLMatch extends BaseMatch {
 				return new TypeQLPosLengthInjectMatch(match);
 			case ROUTESENSOR:
 				return new TypeQLRouteSensorMatch(match);
+			case ROUTESENSOR_INJECT:
+				return new TypeQLRouteSensorInjectMatch(match);
 			case SEMAPHORENEIGHBOR:
 				return new TypeQLSemaphoreNeighborMatch(match);
+			case SEMAPHORENEIGHBOR_INJECT:
+				return new TypeQLSemaphoreNeighborInjectMatch(match);
 			case SWITCHMONITORED:
 				return new TypeQLSwitchMonitoredMatch(match);
+			case SWITCHMONITORED_INJECT:
+				return new TypeQLSwitchMonitoredInjectMatch(match);
 			case SWITCHSET:
 				return new TypeQLSwitchSetMatch(match);
+			case SWITCHSET_INJECT:
+				return new TypeQLSwitchSetInjectMatch(match);
 			default:
 				throw new UnsupportedOperationException("Query not supported: " + query);
 		}

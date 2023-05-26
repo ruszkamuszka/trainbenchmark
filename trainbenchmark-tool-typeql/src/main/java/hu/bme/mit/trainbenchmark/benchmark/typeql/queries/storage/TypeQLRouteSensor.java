@@ -26,8 +26,8 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 		String query = new String(fileBytes, StandardCharsets.UTF_8);
 
 		Map<String, Object> matchMap = new HashMap<>();
-		transaction(t -> {
-			System.out.println("Executing TypeQL Query: " + query);
+		driver.transaction(t -> {
+			System.out.println("Executing TypeQL Query: RouteSensor");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_ROUTE, result.get("routeID").asAttribute().asLong().getValue());

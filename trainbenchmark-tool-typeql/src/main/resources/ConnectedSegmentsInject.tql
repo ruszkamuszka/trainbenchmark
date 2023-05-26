@@ -8,20 +8,5 @@ match
     $connectsTo1(TrackElement: $segment1, TrackElement: $segment3) isa connectsTo;
 get
     $sensorID, $segment1ID, $segment3ID;
-    limit 1;
-   match
-    $segment1 isa Segment, has id 14;
-    $segment3 isa Segment, has id 13;
-    $connectsTo1(TrackElement: $segment1, TrackElement: $segment3) isa connectsTo;
-delete
-    $connectsTo1 isa connectsTo;
-    
-    match
-    $sensor isa Sensor, has id 12;
-    $segment1 isa Segment, has id 14;
-    $segment3 isa Segment, has id 13;
-insert 
-    $segment2 isa Segment, has id 555555;
-    $connectsTo2(TrackElement: $segment1, TrackElement: $segment2) isa connectsTo;    
-    $connectsTo3(TrackElement: $segment2, TrackElement: $segment3) isa connectsTo;
-    $monitoredBy3(TrackElement: $segment2, Sensor: $sensor) isa monitoredBy;
+   
+

@@ -7,6 +7,8 @@ import com.vaticle.typedb.client.api.TypeDBSession;
 import com.vaticle.typedb.client.api.TypeDBTransaction;
 import hu.bme.mit.trainbenchmark.benchmark.driver.Driver;
 
+import java.util.function.Consumer;
+
 public class TypeQLDriver extends Driver {
 	TypeDBClient client;
 	TypeDBSession session;
@@ -18,6 +20,23 @@ public class TypeQLDriver extends Driver {
 		super();
 		options = TypeDBOptions.core();
 		options.transactionTimeoutMillis(3000000);
+	}
+	public static void transaction(Consumer<TypeDBTransaction> queries, final String mode) {
+		TypeDBClient client = TypeDB.coreClient("localhost:1729");
+		TypeDBSession session = client.session("TRAIN0522", TypeDBSession.Type.DATA);
+		TypeDBOptions options = TypeDBOptions.core().infer(true);
+		TypeDBTransaction transaction = mode == "WRITE"
+			? session.transaction(TypeDBTransaction.Type.WRITE, options)
+			: session.transaction(TypeDBTransaction.Type.READ, options);
+
+		queries.accept(transaction);
+		if (mode == "WRITE") {
+			transaction.commit();
+		}
+
+		transaction.close();
+		session.close();
+		client.close();
 	}
 
 	@Override

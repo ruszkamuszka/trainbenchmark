@@ -10,4 +10,4 @@ match
         (Route: $route, Sensor: $sensor) isa requires;
     };
 get    
-    $routeID, $sensorID, $switchPosition, $switchID;
+    $routeID, $sensorID, $switchPositionID, $switchID;
