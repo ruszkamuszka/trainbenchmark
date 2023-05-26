@@ -1,0 +1,12 @@
+match 
+    $semaphore isa Semaphore, has id $semaphoreID, has signal "GO";
+    $switch isa Switch, has id $switchID, has position $currentposition;
+    $switchPosition isa SwitchPosition, has id $swpID, has target $target, has position $position;
+    $route isa Route, has id $routeID, has active true, has entry $entry;
+    $entry = $semaphoreID;   
+    $target = $switchID;
+    $follows($route, $switchPosition);
+    $currentposition != $position;
+get
+    $semaphoreID, $routeID, $swpID, $switchID, $position, $currentposition;
+    

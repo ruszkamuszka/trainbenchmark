@@ -1,52 +1,53 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage;
 
-import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
-import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSwitchSetInjectMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSwitchSetMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.vaticle.typeql.lang.TypeQL.var;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 	public TypeQLSwitchSet(final TypeQLDriver driver) {
 		super(RailwayQuery.SWITCHSET, driver);
 	}
 
-	public Stream<ConceptMap> switchSet() throws Exception {
-		driver.read("...");
+	public Map<String, Object> switchSet() throws Exception {
+		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchSet.tql";
+		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		String query = new String(fileBytes, StandardCharsets.UTF_8);
 
-		TypeQLMatch getQuery = TypeQL.match(
-			var("semaphore").isa("Semaphore").has("id", var("semaphoreID")).has("signal", "GO"),
-			var("signal").eq("GO"),
-			var("route").isa("Route").has("id", var("routeID")).has("active", var("active")),
-			var("switchPosition").isa("SwitchPosition").has("id", var("swP")).has("position", var("position")),
-			var("switch").isa("Switch").has("id", var("sw")).has("currentPosition", var("currentPosition")),
-			var().rel("Route", var("route")).rel("SwitchPosition", var("switchPosition")).isa("follows"),
-			var("currentPosition").neq("position")
-		).get("semaphore", "routeID", "swP", "sw", "position", "currentPosition");
-
-
-		Stream<ConceptMap> results = driver.getTransaction().query().match(getQuery);
-		//results.forEach(result -> System.out.println(result.get("rq").asThing().getIID()));
-		//driver.finishTransaction();
-		return results;
+		Map<String, Object> matchMap = new HashMap<>();
+		transaction(t -> {
+			System.out.println("Executing TypeQL Query: " + query);
+			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
+				{
+					matchMap.put(QueryConstants.VAR_SEMAPHORE, result.get("semaphoreID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_ROUTE, result.get("routeID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SWP, result.get("swpID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_POSITION, result.get("position").asAttribute().asString().getValue());
+					matchMap.put(QueryConstants.VAR_CURRENTPOSITION, result.get("currentposition").asAttribute().asString().getValue());
+				}
+			);
+		}, "READ");
+		System.out.println("Match size: " +matchMap.size());
+		return matchMap;
 	}
 
 	@Override
 	public Collection<TypeQLSwitchSetMatch> evaluate() throws Exception {
-		return switchSet().map(conceptMap -> {
-			Object switchID = conceptMap.get("switchID").asAttribute().getValue();
-			Map<String, Object> matchMap = new HashMap<>();
-			matchMap.put(QueryConstants.VAR_SW, switchID);
-			return new TypeQLSwitchSetMatch(matchMap);
-		}).collect(Collectors.toList());
+		final Collection<TypeQLSwitchSetMatch> matches = new ArrayList<>();
+		Map<String, Object> matchMap = switchSet();
+		matches.add(new TypeQLSwitchSetMatch(matchMap));
+
+		return matches;
 	}
 }

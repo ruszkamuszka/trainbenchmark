@@ -4,7 +4,6 @@ import hu.bme.mit.trainbenchmark.generator.ModelGenerator;
 import hu.bme.mit.trainbenchmark.generator.ScalableGeneratorFactory;
 import hu.bme.mit.trainbenchmark.generator.config.GeneratorConfig;
 import hu.bme.mit.trainbenchmark.generator.typeql.config.TypeQLGeneratorConfig;
-import hu.bme.mit.trainbenchmark.typeql.process.TypeQLProcess;
 
 import java.io.FileNotFoundException;
 

@@ -1,7 +1,9 @@
 match
     $segment isa Segment, has id $id, has length $length;
     limit 1;
+    
 delete
-    $segment has $length;    
+    $segment has $length;  
+      
 insert 
     $segment has length 0;

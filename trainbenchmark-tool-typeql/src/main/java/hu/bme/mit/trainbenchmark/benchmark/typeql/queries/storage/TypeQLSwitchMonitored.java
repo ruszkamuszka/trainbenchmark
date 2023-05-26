@@ -1,53 +1,48 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage;
 
-import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
-import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSwitchMonitoredMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.vaticle.typeql.lang.TypeQL.not;
-import static com.vaticle.typeql.lang.TypeQL.var;
 
 public class TypeQLSwitchMonitored extends TypeQLMainQuery<TypeQLSwitchMonitoredMatch>{
 	public TypeQLSwitchMonitored(final TypeQLDriver driver) {
 		super(RailwayQuery.SWITCHMONITORED, driver);
 	}
 
-	public Stream<ConceptMap> switchMonitored() throws Exception{
-		driver.read("...");
+	public Map<String, Object> switchMonitored() throws Exception{
+		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchMonitored.tql";
+		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		String query = new String(fileBytes, StandardCharsets.UTF_8);
 
-		TypeQLMatch.Filtered query = TypeQL.match(
-			var("switch").isa("Switch").has("id", var("switchID")),
-			not(
-				var()
-					.rel("Sensor", var("sensor"))
-					.rel("Switch", var("switch"))
-					.isa("monitoredBy")
-			)
-		).get("switchID");
-
-		Stream<ConceptMap> results = driver.getTransaction().query().match(query);
-		//results.forEach(result -> System.out.println(result.get("sid").asThing().getIID()));
-		//driver.finishTransaction();
-		return results;
+		Map<String, Object> matchMap = new HashMap<>();
+		transaction(t -> {
+			System.out.println("Executing TypeQL Query: " + query);
+			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
+				{
+					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().asLong().getValue());
+				}
+			);
+		}, "READ");
+		System.out.println("Match size: " +matchMap.size());
+		return matchMap;
 	}
 
 	@Override
 	public Collection<TypeQLSwitchMonitoredMatch> evaluate() throws Exception {
-		return switchMonitored().map(conceptMap -> {
-			Object switchID = conceptMap.get("switchID").asAttribute().getValue();
-			Map<String, Object> matchMap = new HashMap<>();
-			matchMap.put(QueryConstants.VAR_SW, switchID);
-			return new TypeQLSwitchMonitoredMatch(matchMap);
-		}).collect(Collectors.toList());
+		final Collection<TypeQLSwitchMonitoredMatch> matches = new ArrayList<>();
+		Map<String, Object> matchMap = switchMonitored();
+		matches.add(new TypeQLSwitchMonitoredMatch(matchMap));
+
+		return matches;
 	}
 }
