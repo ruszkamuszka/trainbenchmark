@@ -39,7 +39,7 @@ public class TypeQLSemaphoreNeighbor extends TypeQLMainQuery<TypeQLSemaphoreNeig
 				}
 			);
 		}, "READ");
-		System.out.println("Match size: " +matchMap.size());
+		System.out.println("SemaphoreNeighbor size: " +matchMap.size());
 		return matchMap;
 	}
 
@@ -48,7 +48,6 @@ public class TypeQLSemaphoreNeighbor extends TypeQLMainQuery<TypeQLSemaphoreNeig
 		final Collection<TypeQLSemaphoreNeighborMatch> matches = new ArrayList<>();
 		Map<String, Object> matchMap = semaphoreNeighbor();
 		matches.add(new TypeQLSemaphoreNeighborMatch(matchMap));
-
 		return matches;
 	}
 }

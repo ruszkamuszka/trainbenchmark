@@ -36,10 +36,7 @@ public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnect
 				}
 			);
 		}, "READ");
-
-
-
-		System.out.println("Match size: " +matchMap.size());
+		System.out.println("ConnectedSegmentsInject size: " +matchMap.size());
 		return matchMap;
 	}
 

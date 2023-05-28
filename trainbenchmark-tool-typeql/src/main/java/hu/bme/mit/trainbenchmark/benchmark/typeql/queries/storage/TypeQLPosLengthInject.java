@@ -1,44 +1,48 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage;
 
-import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
-import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLPosLengthInjectMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.vaticle.typeql.lang.TypeQL.var;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TypeQLPosLengthInject extends TypeQLMainQuery<TypeQLPosLengthInjectMatch>{
 	public TypeQLPosLengthInject(TypeQLDriver driver) {
 		super(RailwayQuery.POSLENGTH_INJECT, driver);
 	}
 
-	public Stream<ConceptMap> posLengthInject() throws Exception{
-		driver.read("...");
+	public Map<String, Object> posLengthInject() throws Exception{
+		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\PosLengthInject.tql";
+		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		Map<String, Object> matchMap = new HashMap<>();
 
-		TypeQLMatch.Filtered query = TypeQL.match(
-			var("segment").isa("Segment").has("id", var("segmentID"))
-		).get("segmentID");
+		driver.transaction(t -> {
+			String query = new String(fileBytes, StandardCharsets.UTF_8);
 
-		Stream<ConceptMap> results = driver.getTransaction().query().match(query);
-		//results.forEach(result -> System.out.println(result.get("sid").asThing().getIID()));
-		//driver.finishTransaction();
-		return results;
+			System.out.println("Executing TypeQL Query: PosLengthInject");
+			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
+				{
+					matchMap.put(QueryConstants.VAR_SEGMENT , result.get("segmentID").asAttribute().asLong().getValue());
+				}
+			);
+		}, "READ");
+		System.out.println("PosLengthInject size: " +matchMap.size());
+		return matchMap;
 	}
 
 	@Override
 	public Collection<TypeQLPosLengthInjectMatch> evaluate() throws Exception {
-		return posLengthInject().map(conceptMap -> {
-			Object segmentID = conceptMap.get("segmentID").asAttribute().getValue();
-			Map<String, Object> matchMap = new HashMap<>();
-			matchMap.put(QueryConstants.VAR_SEGMENT, segmentID);
-			return new TypeQLPosLengthInjectMatch(matchMap);
-		}).collect(Collectors.toList());
+		final Collection<TypeQLPosLengthInjectMatch> matches = new ArrayList<>();
+		Map<String, Object> matchMap = posLengthInject();
+		matches.add(new TypeQLPosLengthInjectMatch(matchMap));
+		return matches;
 	}
 }

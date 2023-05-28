@@ -33,7 +33,7 @@ public class TypeQLSwitchMonitored extends TypeQLMainQuery<TypeQLSwitchMonitored
 				}
 			);
 		}, "READ");
-		System.out.println("Match size: " +matchMap.size());
+		System.out.println("SwitchMonitored size: " +matchMap.size());
 		return matchMap;
 	}
 
@@ -42,7 +42,6 @@ public class TypeQLSwitchMonitored extends TypeQLMainQuery<TypeQLSwitchMonitored
 		final Collection<TypeQLSwitchMonitoredMatch> matches = new ArrayList<>();
 		Map<String, Object> matchMap = switchMonitored();
 		matches.add(new TypeQLSwitchMonitoredMatch(matchMap));
-
 		return matches;
 	}
 }

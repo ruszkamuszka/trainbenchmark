@@ -7,6 +7,5 @@ match
     $monitoredBy(TrackElement: $switch, Sensor: $sensor) isa monitoredBy;
     $require(Route: $route, Sensor: $sensor) isa requires;
     $switchID=$target;
-    limit 1;
-delete
-    $require isa requires;
+get
+    $routeID, $sensorID;

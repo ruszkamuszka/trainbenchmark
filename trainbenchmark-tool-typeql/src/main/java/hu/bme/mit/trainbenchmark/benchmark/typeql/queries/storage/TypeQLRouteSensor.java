@@ -37,7 +37,7 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 				}
 			);
 		}, "READ");
-		System.out.println("Match size: " +matchMap.size());
+		System.out.println("RouteSensor size: " +matchMap.size());
 		return matchMap;
 	}
 
@@ -46,9 +46,6 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 		final Collection<TypeQLRouteSensorMatch> matches = new ArrayList<>();
 		Map<String, Object> matchMap = routeSensor();
 		matches.add(new TypeQLRouteSensorMatch(matchMap));
-		for (TypeQLRouteSensorMatch match : matches) {
-			System.out.println("SensorID: "+match.getSensor()); // Print each match element
-		}
 		return matches;
 	}
 }

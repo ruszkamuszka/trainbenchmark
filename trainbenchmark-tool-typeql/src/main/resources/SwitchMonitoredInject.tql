@@ -1,0 +1,4 @@
+match
+    $switch isa Switch, has id $switchID;
+get 
+    $switchID;

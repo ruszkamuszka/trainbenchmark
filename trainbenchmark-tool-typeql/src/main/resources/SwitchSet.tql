@@ -9,4 +9,3 @@ match
     $currentposition != $position;
 get
     $semaphoreID, $routeID, $swpID, $switchID, $position, $currentposition;
-    

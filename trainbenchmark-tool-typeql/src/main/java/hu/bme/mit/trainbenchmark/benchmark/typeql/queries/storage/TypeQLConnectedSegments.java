@@ -41,7 +41,7 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 					}
 			);
 		}, "READ");
-		System.out.println("Match size: " +matchMap.size());
+		System.out.println("ConnectedSegments size: " +matchMap.size());
 		return matchMap;
 	}
 
@@ -50,9 +50,6 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 			final Collection<TypeQLConnectedSegmentsMatch> matches = new ArrayList<>();
 			Map<String, Object> matchMap = connectedSegments();
 			matches.add(new TypeQLConnectedSegmentsMatch(matchMap));
-//		for (TypeQLConnectedSegmentsMatch match : matches) {
-//			System.out.println("SensorID: "+match.getSensor()); // Print each match element
-//		}
 			return matches;
 	}
 

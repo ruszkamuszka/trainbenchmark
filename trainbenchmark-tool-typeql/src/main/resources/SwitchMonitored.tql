@@ -1,4 +1,4 @@
 match
-$switch isa Switch, has id $sw; 
+$switch isa Switch, has id $switchID;
 not{ (Sensor: $sensor, TrackElement: $switch) isa monitoredBy; };
-get $sw;
+get $switchID;

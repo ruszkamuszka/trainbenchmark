@@ -1,6 +1,4 @@
-   match
-    $segment1 isa Segment, has id "735";
-    $segment3 isa Segment, has id "736";
-    $connectsTo1(TrackElement: $segment1, TrackElement: $segment3) isa connectsTo;
-delete
-    $connectsTo1 isa connectsTo;
+match 
+    $switch isa Switch, has id 5;
+insert
+    $switch has position "STRAIGHT";

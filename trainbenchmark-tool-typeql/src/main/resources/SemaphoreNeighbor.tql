@@ -16,5 +16,5 @@ match
     $requires2($route2, $sensor2) isa requires;
     $monitoredBy1($te1, $sensor1) isa monitoredBy;
     $monitoredBy2($te2, $sensor2) isa monitoredBy;
-    $connectedTo($te1, $te2) isa connectsTo;
+not{ $connectedTo($te1, $te2) isa connectsTo; };
     

@@ -7,7 +7,6 @@ import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
 public abstract class TypeQLMainQuery<TQLMatch extends TypeQLMatch> extends TypeQLQuery<TQLMatch> {
 
-
 	public TypeQLMainQuery(final RailwayQuery query, final TypeQLDriver driver) {
 		super(query, driver);
 	}

@@ -3,12 +3,12 @@ package hu.bme.mit.trainbenchmark.benchmark.typeql.operations;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelOperation;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelOperationFactory;
 import hu.bme.mit.trainbenchmark.benchmark.operations.ModelQuery;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.*;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.*;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.TypeQLTransformation;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.inject.TypeQLTransformationInjectConnectedSegments;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.inject.*;
 import hu.bme.mit.trainbenchmark.constants.RailwayOperation;
-import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 
 public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMatch, TypeQLDriver> {
 	@Override
@@ -34,23 +34,27 @@ public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMat
 				return ModelOperation.of(query6);
 			case CONNECTEDSEGMENTS_INJECT:
 				final ModelQuery<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> query7 = new TypeQLConnectedSegmentsInject(driver);
-				final TypeQLTransformation<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> transformation = new TypeQLTransformationInjectConnectedSegments<>(driver);
-				return ModelOperation.of(query7, transformation);
+				final TypeQLTransformation<TypeQLConnectedSegmentsInjectMatch, TypeQLDriver> transformation7 = new TypeQLTransformationInjectConnectedSegments<>(driver);
+				return ModelOperation.of(query7, transformation7);
 			case POSLENGTH_INJECT:
 				final ModelQuery<TypeQLPosLengthInjectMatch, TypeQLDriver> query8 = new TypeQLPosLengthInject(driver);
-				return ModelOperation.of(query8);
+				final TypeQLTransformation<TypeQLPosLengthInjectMatch, TypeQLDriver> transformation8 = new TypeQLTransformationInjectPosLength<>(driver);
+				return ModelOperation.of(query8, transformation8);
 			case ROUTESENSOR_INJECT:
 				final ModelQuery<TypeQLRouteSensorInjectMatch, TypeQLDriver> query9 = new TypeQLRouteSensorInject(driver);
-				return ModelOperation.of(query9);
+				final TypeQLTransformation<TypeQLRouteSensorInjectMatch, TypeQLDriver> transformation9 = new TypeQLTransformationInjectRouteSensor<>(driver);
+				return ModelOperation.of(query9, transformation9);
 			case SEMAPHORENEIGHBOR_INJECT:
 				final ModelQuery<TypeQLSemaphoreNeighborInjectMatch, TypeQLDriver> query10 = new TypeQLSemaphoreNeighborInject(driver);
 				return ModelOperation.of(query10);
 			case SWITCHMONITORED_INJECT:
 				final ModelQuery<TypeQLSwitchMonitoredInjectMatch, TypeQLDriver> query11 = new TypeQLSwitchMonitoredInject(driver);
-				return ModelOperation.of(query11);
+				final TypeQLTransformation<TypeQLSwitchMonitoredInjectMatch, TypeQLDriver> transformation11 = new TypeQLTransformationInjectSwitchMonitored<>(driver);
+				return ModelOperation.of(query11, transformation11);
 			case SWITCHSET_INJECT:
 				final ModelQuery<TypeQLSwitchSetInjectMatch, TypeQLDriver> query12 = new TypeQLSwitchSetInject(driver);
-				return ModelOperation.of(query12);
+				final TypeQLTransformation<TypeQLSwitchSetInjectMatch, TypeQLDriver> transformation12 = new TypeQLTransformationInjectSwitchSet<>(driver);
+				return ModelOperation.of(query12, transformation12);
 //			case CONNECTEDSEGMENTS_REPAIR:
 //				break;
 //			case POSLENGTH_REPAIR:

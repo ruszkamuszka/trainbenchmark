@@ -33,7 +33,7 @@ public class TypeQLPosLength extends TypeQLMainQuery<TypeQLPosLengthMatch>{
 				}
 			);
 		}, "READ");
-		System.out.println("Match size: " +matchMap.size());
+		System.out.println("PosLength size: " +matchMap.size());
 		return matchMap;
 	}
 
@@ -42,9 +42,6 @@ public class TypeQLPosLength extends TypeQLMainQuery<TypeQLPosLengthMatch>{
 		final Collection<TypeQLPosLengthMatch> matches = new ArrayList<>();
 		Map<String, Object> matchMap = posLength();
 		matches.add(new TypeQLPosLengthMatch(matchMap));
-		for (TypeQLPosLengthMatch match : matches) {
-			System.out.println("SegmentID: "+match.getSegment()); // Print each match element
-		}
 		return matches;
 	}
 }

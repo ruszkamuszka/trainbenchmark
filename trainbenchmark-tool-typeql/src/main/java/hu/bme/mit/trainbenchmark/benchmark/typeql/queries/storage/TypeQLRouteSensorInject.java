@@ -1,50 +1,49 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage;
 
-import com.vaticle.typedb.client.api.answer.ConceptMap;
 import com.vaticle.typeql.lang.TypeQL;
-import com.vaticle.typeql.lang.query.TypeQLMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLRouteSensorInjectMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
-import static com.vaticle.typeql.lang.TypeQL.var;
 
 public class TypeQLRouteSensorInject extends TypeQLMainQuery<TypeQLRouteSensorInjectMatch>{
 	public TypeQLRouteSensorInject(TypeQLDriver driver) {
 		super(RailwayQuery.ROUTESENSOR_INJECT, driver);
 	}
 
-	public Stream<ConceptMap> routeSensorInject() throws Exception{
-		driver.read("...");
+	public Map<String, Object> routeSensorInject() throws Exception{
+		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\RouteSensorInject.tql";
+		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		Map<String, Object> matchMap = new HashMap<>();
 
-		TypeQLMatch.Filtered query = TypeQL.match(
-			var("route").isa("Route").has("id", var("routeID")),
-			var("sensor").isa("Sensor").has("id", var("sensorID")),
-			var().rel("Route", var("route")).rel("Sensor", var("sensor")).isa("requires")
-			).get("routeID", "sensorID");
+		driver.transaction(t -> {
+			String query = new String(fileBytes, StandardCharsets.UTF_8);
 
-		Stream<ConceptMap> results = driver.getTransaction().query().match(query);
-		//results.forEach(result -> System.out.println(result.get("sid").asThing().getIID()));
-		//driver.finishTransaction();
-		return results;
+			System.out.println("Executing TypeQL Query: RouteSensorInject");
+			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
+				{
+					matchMap.put(QueryConstants.VAR_ROUTE , result.get("routeID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SENSOR , result.get("sensorID").asAttribute().asLong().getValue());
+				}
+			);
+		}, "READ");
+		System.out.println("RouteSensorInject size: " +matchMap.size());
+		return matchMap;
 	}
 
 	@Override
 	public Collection<TypeQLRouteSensorInjectMatch> evaluate() throws Exception {
-		return routeSensorInject().map(conceptMap -> {
-			Object routeID = conceptMap.get("routeID").asAttribute().getValue();
-			Object sensorID = conceptMap.get("sensorID").asAttribute().getValue();
-			Map<String, Object> matchMap = new HashMap<>();
-			matchMap.put(QueryConstants.VAR_ROUTE, routeID);
-			matchMap.put(QueryConstants.VAR_SENSOR, sensorID);
-			return new TypeQLRouteSensorInjectMatch(matchMap);
-		}).collect(Collectors.toList());
+		final Collection<TypeQLRouteSensorInjectMatch> matches = new ArrayList<>();
+		Map<String, Object> matchMap = routeSensorInject();
+		matches.add(new TypeQLRouteSensorInjectMatch(matchMap));
+		return matches;
 	}
 }

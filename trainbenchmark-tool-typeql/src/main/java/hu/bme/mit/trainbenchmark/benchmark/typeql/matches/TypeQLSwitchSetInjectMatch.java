@@ -14,4 +14,21 @@ public class TypeQLSwitchSetInjectMatch extends TypeQLMatch implements SwitchSet
 	public Object getSw() {
 		return match.get(QueryConstants.VAR_SW);
 	}
+
+	public String getNextValue(){
+		String currentposition = (String) match.get(QueryConstants.VAR_CURRENTPOSITION);
+		String nextvalue = null;
+		switch (currentposition){
+			case "STRAIGHT":
+				nextvalue = "DIVERGING";
+				break;
+			case "DIVERGING":
+				nextvalue = "FAILURE";
+				break;
+			case "FAILURE":
+				nextvalue = "STRAIGHT";
+				break;
+		}
+		return nextvalue;
+	}
 }

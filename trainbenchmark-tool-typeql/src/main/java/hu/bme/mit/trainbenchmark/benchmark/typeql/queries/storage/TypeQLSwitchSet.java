@@ -38,7 +38,7 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 				}
 			);
 		}, "READ");
-		System.out.println("Match size: " +matchMap.size());
+		System.out.println("SwitchSet size: " +matchMap.size());
 		return matchMap;
 	}
 
