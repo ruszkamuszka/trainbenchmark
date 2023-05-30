@@ -12,14 +12,12 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.repair;
 
 
-
+import com.vaticle.typeql.lang.TypeQL;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLPosLengthMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.TypeQLTransformation;
 
 import java.util.Collection;
-
-import static hu.bme.mit.trainbenchmark.constants.ModelConstants.LENGTH;
 
 public class TypeQLTransformationRepairPosLength<TTypeQLDriver extends TypeQLDriver>
 		extends TypeQLTransformation<TypeQLPosLengthMatch, TTypeQLDriver> {
@@ -31,7 +29,23 @@ public class TypeQLTransformationRepairPosLength<TTypeQLDriver extends TypeQLDri
 	@Override
 	public void activate(final Collection<TypeQLPosLengthMatch> matches) {
 		for (final TypeQLPosLengthMatch match : matches) {
-			//TODO
+			driver.transaction(t -> {
+				String query = "match" +
+					"    $segment isa Segment, has id "+ match.getSegment() + ", has length $length;" +
+					"delete" +
+					"    $segment has $length;";
+
+				System.out.println("Executing TypeQL Delete: PosLengthRepairDelete");
+				t.query().delete(TypeQL.parseQuery(query).asDelete());
+
+				query = "match" +
+					"    $segment isa Segment, has id "+ match.getSegment() + ";" +
+					"insert" +
+					"    $segment has length 10;";
+
+				System.out.println("Executing TypeQL Insert: PosLengthRepairInsert");
+				t.query().insert(TypeQL.parseQuery(query).asInsert());
+			}, "WRITE");
 		}
 	}
 

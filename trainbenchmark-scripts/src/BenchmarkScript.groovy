@@ -81,21 +81,21 @@ def workloads = [
 		strategy: TransformationChangeSetStrategy.FIXED,
 		constant: 10, // elements
 		queryTransformationCount: 1, // iterations
-	]
-	/*Repair: [
+	],
+	Repair: [
 		modelVariant: "repair",
 		operations: [
 			RailwayOperation.CONNECTEDSEGMENTS_REPAIR,
 			RailwayOperation.POSLENGTH_REPAIR,
 			RailwayOperation.ROUTESENSOR_REPAIR,
-			RailwayOperation.SEMAPHORENEIGHBOR_REPAIR,
+			//RailwayOperation.SEMAPHORENEIGHBOR_REPAIR,
 			RailwayOperation.SWITCHSET_REPAIR,
 			RailwayOperation.SWITCHMONITORED_REPAIR,
 		],
 		strategy: TransformationChangeSetStrategy.PROPORTIONAL,
 		constant: 5, // percent
 		queryTransformationCount: 8, // iterations
-	]*/
+	]
 ]
 
 def runBenchmarkSeries(BenchmarkConfigBaseBuilder configBaseBuilder, BenchmarkConfigBuilder configBuilder,

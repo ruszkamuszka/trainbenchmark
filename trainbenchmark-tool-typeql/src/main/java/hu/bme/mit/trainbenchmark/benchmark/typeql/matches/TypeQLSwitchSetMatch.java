@@ -29,4 +29,6 @@ public class TypeQLSwitchSetMatch extends TypeQLMatch implements SwitchSetMatch 
 	public Object getSw() {
 		return match.get(QueryConstants.VAR_SW);
 	}
+
+	public Object getPos(){ return match.get(QueryConstants.VAR_POSITION);}
 }

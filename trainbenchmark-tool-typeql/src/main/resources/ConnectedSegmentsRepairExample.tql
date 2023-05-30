@@ -1,4 +1,3 @@
-#Töröljük az injektált segmens kapcsolatait
 match
     $sensor isa Sensor, has id 24;
     $segment1 isa Segment, has id 25;
@@ -11,12 +10,8 @@ delete
     $connectsTo2 isa connectsTo;    
     $connectsTo3 isa connectsTo;
     $monitoredBy3 isa monitoredBy;
-#Töröljük az injektált segmenst  
-match
-    $segment2 isa Segment, has id 0;
-delete
-    $segment2 isa Segment;    
-#Injektáláskor kitörölt connectsTo él visszaállítása    
+    $segment2 isa Segment;
+         
 match
     $sensor isa Sensor, has id 24;
     $segment1 isa Segment, has id 25;

@@ -11,13 +11,12 @@
  *******************************************************************************/
 package hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.repair;
 
+import com.vaticle.typeql.lang.TypeQL;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSemaphoreNeighborMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.TypeQLTransformation;
 
 import java.util.Collection;
-
-import static hu.bme.mit.trainbenchmark.constants.ModelConstants.ENTRY;
 
 public class TypeQLTransformationRepairSemaphoreNeighbor<TTypeQLDriver extends TypeQLDriver>
 		extends TypeQLTransformation<TypeQLSemaphoreNeighborMatch, TTypeQLDriver> {
@@ -29,7 +28,23 @@ public class TypeQLTransformationRepairSemaphoreNeighbor<TTypeQLDriver extends T
 	@Override
 	public void activate(final Collection<TypeQLSemaphoreNeighborMatch> matches) {
 		for (final TypeQLSemaphoreNeighborMatch match : matches) {
-			//TODO
-			}
+			driver.transaction(t -> {
+				String query = "match" +
+					"    $route isa Route, has id " + match.getRoute2() + ", has entry $entry;" +
+					"delete" +
+					"    $route has $entry;";
+
+				System.out.println("Executing TypeQL Delete: SemaphoreNeighborRepairDelete");
+				t.query().delete(TypeQL.parseQuery(query).asDelete());
+
+				query = "match" +
+					"    $route isa Route, has id " + match.getRoute2() + ", has entry $entry;" +
+					"insert" +
+					"    $route has entry " + match.getSemaphore() + ";";
+
+				System.out.println("Executing TypeQL Insert: SemaphoreNeighborRepairInsert");
+				t.query().insert(TypeQL.parseQuery(query).asInsert());
+			}, "WRITE");
 		}
+	}
 }

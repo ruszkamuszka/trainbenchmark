@@ -11,13 +11,12 @@
  *******************************************************************************/
 package hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.repair;
 
+import com.vaticle.typeql.lang.TypeQL;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSwitchSetMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.TypeQLTransformation;
 
 import java.util.Collection;
-
-import static hu.bme.mit.trainbenchmark.constants.ModelConstants.CURRENTPOSITION;
 
 public class TypeQLTransformationRepairSwitchSet<TTypeQLDriver extends TypeQLDriver>
 		extends TypeQLTransformation<TypeQLSwitchSetMatch, TTypeQLDriver> {
@@ -29,7 +28,23 @@ public class TypeQLTransformationRepairSwitchSet<TTypeQLDriver extends TypeQLDri
 	@Override
 	public void activate(final Collection<TypeQLSwitchSetMatch> matches) {
 		for (final TypeQLSwitchSetMatch match : matches) {
-			//TODO
+			driver.transaction(t -> {
+				String query = "match " +
+					"    $switch isa Switch, has id " + match.getSw() + ", has position $currentposition;" +
+					"delete" +
+					"    $switch has $currentposition;";
+
+				System.out.println("Executing TypeQL Delete: SwitchSetRepairDelete");
+				t.query().delete(TypeQL.parseQuery(query).asDelete());
+
+				query = "match" +
+					"    $switch isa Switch, has id $switchID;" +
+					"insert" +
+					"    $switch has position \"" + match.getPos() + "\";";
+
+				System.out.println("Executing TypeQL Insert: SwitchSetRepairInsert");
+				t.query().insert(TypeQL.parseQuery(query).asInsert());
+			}, "WRITE");
 		}
 	}
 

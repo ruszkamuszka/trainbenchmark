@@ -11,15 +11,12 @@
  *******************************************************************************/
 package hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.repair;
 
+import com.vaticle.typeql.lang.TypeQL;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLSwitchMonitoredMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.TypeQLTransformation;
-import hu.bme.mit.trainbenchmark.constants.ModelConstants;
 
 import java.util.Collection;
-
-import static hu.bme.mit.trainbenchmark.constants.ModelConstants.MONITORED_BY;
-import static hu.bme.mit.trainbenchmark.constants.ModelConstants.SENSOR;
 
 public class TypeQLTransformationRepairSwitchMonitored<TTypeQLDriver extends TypeQLDriver>
 		extends TypeQLTransformation<TypeQLSwitchMonitoredMatch, TTypeQLDriver> {
@@ -31,7 +28,16 @@ public class TypeQLTransformationRepairSwitchMonitored<TTypeQLDriver extends Typ
 	@Override
 	public void activate(final Collection<TypeQLSwitchMonitoredMatch> matches) throws Exception {
 		for (final TypeQLSwitchMonitoredMatch match : matches) {
-			//TODO
+			driver.transaction(t -> {
+				String query = "match" +
+					"    $switch isa Switch, has id " + match.getSw() + ";" +
+					"    $sensor1 isa Sensor;" +
+					"insert" +
+					"    $monitoredBy(Sensor: $sensor1, TrackElement: $switch) isa monitoredBy;";
+
+				System.out.println("Executing TypeQL Insert: SwitchMonitoredRepairInsert");
+				t.query().delete(TypeQL.parseQuery(query).asDelete());
+			}, "WRITE");
 		}
 	}
 

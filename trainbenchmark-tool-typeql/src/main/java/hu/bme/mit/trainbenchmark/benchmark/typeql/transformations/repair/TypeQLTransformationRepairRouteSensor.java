@@ -11,10 +11,10 @@
  *******************************************************************************/
 package hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.repair;
 
+import com.vaticle.typeql.lang.TypeQL;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.driver.TypeQLDriver;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLRouteSensorMatch;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.TypeQLTransformation;
-import hu.bme.mit.trainbenchmark.constants.ModelConstants;
 
 import java.util.Collection;
 
@@ -28,7 +28,21 @@ public class TypeQLTransformationRepairRouteSensor<TTypeQLDriver extends TypeQLD
 	@Override
 	public void activate(final Collection<TypeQLRouteSensorMatch> matches) {
 		for (final TypeQLRouteSensorMatch match : matches) {
-			//TODO
+			driver.transaction(t -> {
+				String query = "match" +
+					"    $route isa Route, has id " + match.getRoute() + ";" +
+					"    $switchPosition isa SwitchPosition, has id $switchPositionID, has target $target, has position $position;" +
+					"    $sensor isa Sensor, has id " + match.getSensor() + ";" +
+					"    $switch isa Switch, has id $switchID;" +
+					"    $follows(Route: $route, SwitchPosition: $switchPosition) isa follows;" +
+					"    $monitoredBy(TrackElement: $switch, Sensor: $sensor) isa monitoredBy;" +
+					"    $switchID=$target;" +
+					"insert" +
+					"    $require(Route: $route, Sensor: $sensor) isa requires;";
+
+				System.out.println("Executing TypeQL Insert: RouteSensorRepairInsert");
+				t.query().delete(TypeQL.parseQuery(query).asDelete());
+			}, "WRITE");
 		}
 	}
 

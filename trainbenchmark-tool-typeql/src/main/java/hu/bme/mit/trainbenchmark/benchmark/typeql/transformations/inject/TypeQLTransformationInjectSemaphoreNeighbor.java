@@ -17,7 +17,6 @@ public class TypeQLTransformationInjectSemaphoreNeighbor <TTypeQLDriver extends 
 		for(final TypeQLSemaphoreNeighborInjectMatch match : matches){
 			driver.transaction(t -> {
 				String query = "match" +
-					"    $semaphore isa Semaphore, has id " + match.getSemaphore() + ";" +
 					"    $route isa Route, has id " + match.getRoute() + ", has entry $entry;" +
 					"delete" +
 					"    $route has $entry;";
