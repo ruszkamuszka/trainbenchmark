@@ -22,7 +22,7 @@ public class TypeQLTransformationInjectSemaphoreNeighbor <TTypeQLDriver extends 
 					"delete" +
 					"    $route has $entry;";
 
-				System.out.println("Executing TypeQL Delete: SemaphoreNeighborDelete");
+				System.out.println("Executing TypeQL Delete: SemaphoreNeighborInjectDelete");
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 				//TODO Is this necessary?
 				query = "match" +
@@ -30,7 +30,7 @@ public class TypeQLTransformationInjectSemaphoreNeighbor <TTypeQLDriver extends 
 					"insert" +
 					"    $route has entry 0;";
 
-				System.out.println("Executing TypeQL Insert: SemaphoreNeighborInsert");
+				System.out.println("Executing TypeQL Insert: SemaphoreNeighborInjectInsert");
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}
