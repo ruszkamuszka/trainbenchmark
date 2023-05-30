@@ -8,6 +8,7 @@ import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.*;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.queries.storage.*;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.TypeQLTransformation;
 import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.inject.*;
+import hu.bme.mit.trainbenchmark.benchmark.typeql.transformations.repair.*;
 import hu.bme.mit.trainbenchmark.constants.RailwayOperation;
 
 public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMatch, TypeQLDriver> {
@@ -56,18 +57,30 @@ public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMat
 				final ModelQuery<TypeQLSwitchSetInjectMatch, TypeQLDriver> query12 = new TypeQLSwitchSetInject(driver);
 				final TypeQLTransformation<TypeQLSwitchSetInjectMatch, TypeQLDriver> transformation12 = new TypeQLTransformationInjectSwitchSet<>(driver);
 				return ModelOperation.of(query12, transformation12);
-//			case CONNECTEDSEGMENTS_REPAIR:
-//				break;
-//			case POSLENGTH_REPAIR:
-//				break;
-//			case ROUTESENSOR_REPAIR:
-//				break;
-//			case SEMAPHORENEIGHBOR_REPAIR:
-//				break;
-//			case SWITCHMONITORED_REPAIR:
-//				break;
-//			case SWITCHSET_REPAIR:
-//				break;
+			case CONNECTEDSEGMENTS_REPAIR:
+				final ModelQuery<TypeQLConnectedSegmentsMatch, TypeQLDriver> query13 = new TypeQLConnectedSegments(driver);
+				final TypeQLTransformation<TypeQLConnectedSegmentsMatch, TypeQLDriver> transformation13 = new TypeQLTransformationRepairConnectedSegments<>(driver);
+				return ModelOperation.of(query13, transformation13);
+			case POSLENGTH_REPAIR:
+				final ModelQuery<TypeQLPosLengthMatch, TypeQLDriver> query14 = new TypeQLPosLength(driver);
+				final TypeQLTransformation<TypeQLPosLengthMatch, TypeQLDriver> transformation14 = new TypeQLTransformationRepairPosLength<>(driver);
+				return ModelOperation.of(query14, transformation14);
+			case ROUTESENSOR_REPAIR:
+				final ModelQuery<TypeQLRouteSensorMatch, TypeQLDriver> query15 = new TypeQLRouteSensor(driver);
+				final TypeQLTransformation<TypeQLRouteSensorMatch, TypeQLDriver> transformation15 = new TypeQLTransformationRepairRouteSensor<>(driver);
+				return ModelOperation.of(query15, transformation15);
+			case SEMAPHORENEIGHBOR_REPAIR:
+				final ModelQuery<TypeQLSemaphoreNeighborMatch, TypeQLDriver> query16 = new TypeQLSemaphoreNeighbor(driver);
+				final TypeQLTransformation<TypeQLSemaphoreNeighborMatch, TypeQLDriver> transformation16 = new TypeQLTransformationRepairSemaphoreNeighbor<>(driver);
+				return ModelOperation.of(query16, transformation16);
+			case SWITCHMONITORED_REPAIR:
+				final ModelQuery<TypeQLSwitchMonitoredMatch, TypeQLDriver> query17 = new TypeQLSwitchMonitored(driver);
+				final TypeQLTransformation<TypeQLSwitchMonitoredMatch, TypeQLDriver> transformation17 = new TypeQLTransformationRepairSwitchMonitored<>(driver);
+				return ModelOperation.of(query17, transformation17);
+			case SWITCHSET_REPAIR:
+				final ModelQuery<TypeQLSwitchSetMatch, TypeQLDriver> query18 = new TypeQLSwitchSet(driver);
+				final TypeQLTransformation<TypeQLSwitchSetMatch, TypeQLDriver> transformation18 = new TypeQLTransformationRepairSwitchSet<>(driver);
+				return ModelOperation.of(query18, transformation18);
 		}
 		throw new UnsupportedOperationException("Operation " + operationEnum + " not supported.");
 	}
