@@ -46,7 +46,8 @@ public class TypeQLModelOperationFactory extends ModelOperationFactory<TypeQLMat
 				return ModelOperation.of(query9, transformation9);
 			case SEMAPHORENEIGHBOR_INJECT:
 				final ModelQuery<TypeQLSemaphoreNeighborInjectMatch, TypeQLDriver> query10 = new TypeQLSemaphoreNeighborInject(driver);
-				return ModelOperation.of(query10);
+				final TypeQLTransformation<TypeQLSemaphoreNeighborInjectMatch, TypeQLDriver> transformation10 = new TypeQLTransformationInjectSemaphoreNeighbor<>(driver);
+				return ModelOperation.of(query10, transformation10);
 			case SWITCHMONITORED_INJECT:
 				final ModelQuery<TypeQLSwitchMonitoredInjectMatch, TypeQLDriver> query11 = new TypeQLSwitchMonitoredInject(driver);
 				final TypeQLTransformation<TypeQLSwitchMonitoredInjectMatch, TypeQLDriver> transformation11 = new TypeQLTransformationInjectSwitchMonitored<>(driver);

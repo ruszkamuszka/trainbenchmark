@@ -1,0 +1,6 @@
+match
+    $semaphore isa Semaphore, has id $semaphoreID;
+    $route isa Route, has id $routeID, has entry $entry;
+    $entry = $semaphoreID;
+get
+   $semaphoreID, $routeID;  

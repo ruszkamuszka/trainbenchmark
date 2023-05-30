@@ -1,4 +1,0 @@
-match 
-    $switch isa Switch, has id 5, has position $currentposition;
-delete
-    $switch has $currentposition;
