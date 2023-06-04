@@ -24,6 +24,7 @@ public class TypeQLTransformationInjectSwitchMonitored <TTypeQLDriver extends Ty
 					"    $monitoredBy isa monitoredBy;";
 
 				System.out.println("Executing TypeQL Delete: SwitchMonitoredInjectDelete");
+				System.out.println(query);
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 			}, "WRITE");
 		}

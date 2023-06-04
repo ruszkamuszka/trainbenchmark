@@ -20,6 +20,7 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 		super(RailwayQuery.ROUTESENSOR, driver);
 	}
 
+	boolean found = false;
 	public Map<String, Object> routeSensor() throws Exception {
 		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\RouteSensor.tql";
 		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
@@ -37,7 +38,7 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 				}
 			);
 		}, "READ");
-		System.out.println("RouteSensor size: " +matchMap.size());
+		found = matchMap.size() == 0 ? false : true;
 		return matchMap;
 	}
 
@@ -45,7 +46,10 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 	public Collection<TypeQLRouteSensorMatch> evaluate() throws Exception {
 		final Collection<TypeQLRouteSensorMatch> matches = new ArrayList<>();
 		Map<String, Object> matchMap = routeSensor();
-		matches.add(new TypeQLRouteSensorMatch(matchMap));
+		if(found){
+			matches.add(new TypeQLRouteSensorMatch(matchMap));
+		}
+		System.out.println("RouteSensor size: " +matches.size() +"  "+ matchMap.get(QueryConstants.VAR_ROUTE)+"  "+ matchMap.get(QueryConstants.VAR_SENSOR));
 		return matches;
 	}
 }

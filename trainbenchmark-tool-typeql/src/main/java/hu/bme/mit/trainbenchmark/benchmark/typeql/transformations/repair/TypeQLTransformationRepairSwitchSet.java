@@ -38,7 +38,7 @@ public class TypeQLTransformationRepairSwitchSet<TTypeQLDriver extends TypeQLDri
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 
 				query = "match" +
-					"    $switch isa Switch, has id $switchID;" +
+					"    $switch isa Switch, has id " + match.getSw() + ";" +
 					"insert" +
 					"    $switch has position \"" + match.getPos() + "\";";
 

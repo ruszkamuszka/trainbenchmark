@@ -34,7 +34,6 @@ public class TypeQLSwitchMonitoredInject extends TypeQLMainQuery<TypeQLSwitchMon
 				}
 			);
 		}, "READ");
-		System.out.println("SwitchMonitoredInject size: " +matchMap.size());
 		return matchMap;
 	}
 

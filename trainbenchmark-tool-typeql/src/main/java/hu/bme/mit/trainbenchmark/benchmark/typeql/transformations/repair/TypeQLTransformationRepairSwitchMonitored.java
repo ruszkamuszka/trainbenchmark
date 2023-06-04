@@ -36,7 +36,7 @@ public class TypeQLTransformationRepairSwitchMonitored<TTypeQLDriver extends Typ
 					"    $monitoredBy(Sensor: $sensor1, TrackElement: $switch) isa monitoredBy;";
 
 				System.out.println("Executing TypeQL Insert: SwitchMonitoredRepairInsert");
-				t.query().delete(TypeQL.parseQuery(query).asDelete());
+				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}
 	}

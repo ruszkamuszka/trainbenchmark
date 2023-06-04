@@ -1,0 +1,5 @@
+match
+    $route isa Route, has id 210;
+    $sensor isa Sensor, has id 158;
+insert
+    $require(Route: $route, Sensor: $sensor) isa requires;

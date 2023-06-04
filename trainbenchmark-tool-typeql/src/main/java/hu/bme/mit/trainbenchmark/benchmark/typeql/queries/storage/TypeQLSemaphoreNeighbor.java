@@ -19,6 +19,7 @@ public class TypeQLSemaphoreNeighbor extends TypeQLMainQuery<TypeQLSemaphoreNeig
 		super(RailwayQuery.SEMAPHORENEIGHBOR, driver);
 	}
 
+	boolean found = false;
 	public Map<String, Object> semaphoreNeighbor() throws Exception{
 		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SemaphoreNeighbor.tql";
 		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
@@ -39,7 +40,7 @@ public class TypeQLSemaphoreNeighbor extends TypeQLMainQuery<TypeQLSemaphoreNeig
 				}
 			);
 		}, "READ");
-		System.out.println("SemaphoreNeighbor size: " +matchMap.size());
+		found = matchMap.size() == 0 ? false : true;
 		return matchMap;
 	}
 
@@ -47,7 +48,10 @@ public class TypeQLSemaphoreNeighbor extends TypeQLMainQuery<TypeQLSemaphoreNeig
 	public Collection<TypeQLSemaphoreNeighborMatch> evaluate() throws Exception {
 		final Collection<TypeQLSemaphoreNeighborMatch> matches = new ArrayList<>();
 		Map<String, Object> matchMap = semaphoreNeighbor();
-		matches.add(new TypeQLSemaphoreNeighborMatch(matchMap));
+		if(found){
+			matches.add(new TypeQLSemaphoreNeighborMatch(matchMap));
+		}
+		System.out.println("SemaphoreNeighbor size: " +matches.size());
 		return matches;
 	}
 }

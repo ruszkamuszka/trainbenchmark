@@ -18,17 +18,13 @@ public class TypeQLTransformationInjectRouteSensor <TTypeQLDriver extends TypeQL
 			driver.transaction(t -> {
 				String query = "match" +
 					"    $route isa Route, has id " + match.getRoute() + ";" +
-					"    $switchPosition isa SwitchPosition, has id $switchPositionID, has target $target, has position $position;" +
 					"    $sensor isa Sensor, has id " + match.getSensor() + ";" +
-					"    $switch isa Switch, has id $switchID;" +
-					"    $follows(Route: $route, SwitchPosition: $switchPosition) isa follows;" +
-					"    $monitoredBy(TrackElement: $switch, Sensor: $sensor) isa monitoredBy;" +
 					"    $require(Route: $route, Sensor: $sensor) isa requires;" +
-					"    $switchID=$target;" +
 					"delete" +
 					"    $require isa requires;";
 
 				System.out.println("Executing TypeQL Delete: RouteSensorInjectDelete");
+				System.out.println(query);
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 			}, "WRITE");
 		}

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnectedSegmentsInjectMatch>{
 	public TypeQLConnectedSegmentsInject(TypeQLDriver driver) {
@@ -28,15 +29,13 @@ public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnect
 			String query = new String(fileBytes, StandardCharsets.UTF_8);
 
 			System.out.println("Executing TypeQL Query: ConnectedSegmentsInject");
-			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
-				{
-					matchMap.put(QueryConstants.VAR_SENSOR , result.get("sensorID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SEGMENT1 , result.get("segment1ID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SEGMENT3 , result.get("segment3ID").asAttribute().asLong().getValue());
-				}
-			);
+			var result = t.query().match(TypeQL.parseQuery(query).asMatch()).collect(Collectors.toList());
+			for (var element: result) {
+				matchMap.put(QueryConstants.VAR_SENSOR , element.get("sensorID").asAttribute().asLong().getValue());
+				matchMap.put(QueryConstants.VAR_SEGMENT1 , element.get("segment1ID").asAttribute().asLong().getValue());
+				matchMap.put(QueryConstants.VAR_SEGMENT3 , element.get("segment3ID").asAttribute().asLong().getValue());
+			}
 		}, "READ");
-		System.out.println("ConnectedSegmentsInject size: " +matchMap.size());
 		return matchMap;
 	}
 

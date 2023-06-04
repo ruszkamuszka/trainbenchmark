@@ -19,6 +19,7 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 		super(RailwayQuery.SWITCHSET, driver);
 	}
 
+	boolean found = false;
 	public Map<String, Object> switchSet() throws Exception {
 		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchSet.tql";
 		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
@@ -38,7 +39,7 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 				}
 			);
 		}, "READ");
-		System.out.println("SwitchSet size: " +matchMap.size());
+		found = matchMap.size() == 0 ? false : true;
 		return matchMap;
 	}
 
@@ -46,8 +47,10 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 	public Collection<TypeQLSwitchSetMatch> evaluate() throws Exception {
 		final Collection<TypeQLSwitchSetMatch> matches = new ArrayList<>();
 		Map<String, Object> matchMap = switchSet();
-		matches.add(new TypeQLSwitchSetMatch(matchMap));
-
+		if(found){
+			matches.add(new TypeQLSwitchSetMatch(matchMap));
+		}
+		System.out.println("SwitchSet size: " +matches.size());
 		return matches;
 	}
 }

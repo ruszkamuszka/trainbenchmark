@@ -35,7 +35,6 @@ public class TypeQLRouteSensorInject extends TypeQLMainQuery<TypeQLRouteSensorIn
 				}
 			);
 		}, "READ");
-		System.out.println("RouteSensorInject size: " +matchMap.size());
 		return matchMap;
 	}
 

@@ -1,0 +1,5 @@
+match
+     $switch isa Switch, has id ;
+     $sensor1 isa Sensor;
+insert
+     $monitoredBy(Sensor: $sensor1, TrackElement: $switch) isa monitoredBy;

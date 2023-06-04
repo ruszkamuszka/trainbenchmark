@@ -19,6 +19,8 @@ public class TypeQLPosLength extends TypeQLMainQuery<TypeQLPosLengthMatch>{
 		super(RailwayQuery.POSLENGTH, driver);
 	}
 
+	boolean found = false;
+
 	public Map<String, Object> posLength() throws Exception {
 		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\PosLength.tql";
 		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
@@ -33,7 +35,7 @@ public class TypeQLPosLength extends TypeQLMainQuery<TypeQLPosLengthMatch>{
 				}
 			);
 		}, "READ");
-		System.out.println("PosLength size: " +matchMap.size());
+		found = matchMap.size() == 0 ? false : true;
 		return matchMap;
 	}
 
@@ -41,7 +43,10 @@ public class TypeQLPosLength extends TypeQLMainQuery<TypeQLPosLengthMatch>{
 	public Collection<TypeQLPosLengthMatch> evaluate() throws Exception {
 		final Collection<TypeQLPosLengthMatch> matches = new ArrayList<>();
 		Map<String, Object> matchMap = posLength();
-		matches.add(new TypeQLPosLengthMatch(matchMap));
+		if(found){
+			matches.add(new TypeQLPosLengthMatch(matchMap));
+		}
+		System.out.println("PosLength size: " +matches.size());
 		return matches;
 	}
 }

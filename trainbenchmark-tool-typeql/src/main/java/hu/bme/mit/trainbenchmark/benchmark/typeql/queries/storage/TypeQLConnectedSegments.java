@@ -19,11 +19,11 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 	public TypeQLConnectedSegments(final TypeQLDriver driver) {
 		super(RailwayQuery.CONNECTEDSEGMENTS, driver);
 	}
+	boolean found = false;
 
 	public Map<String, Object> connectedSegments() throws Exception {
 		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\ConnectedSegments.tql";
 		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
-
 
 		String query = new String(fileBytes, StandardCharsets.UTF_8);
 		Map<String, Object> matchMap = new HashMap<>();
@@ -41,7 +41,7 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 					}
 			);
 		}, "READ");
-		System.out.println("ConnectedSegments size: " +matchMap.size());
+		found = matchMap.size() == 0 ? false : true;
 		return matchMap;
 	}
 
@@ -49,7 +49,10 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 	public Collection<TypeQLConnectedSegmentsMatch> evaluate() throws Exception {
 			final Collection<TypeQLConnectedSegmentsMatch> matches = new ArrayList<>();
 			Map<String, Object> matchMap = connectedSegments();
-			matches.add(new TypeQLConnectedSegmentsMatch(matchMap));
+			if(found){
+				matches.add(new TypeQLConnectedSegmentsMatch(matchMap));
+			}
+			System.out.println("ConnectedSegments size: " +matches.size());
 			return matches;
 	}
 

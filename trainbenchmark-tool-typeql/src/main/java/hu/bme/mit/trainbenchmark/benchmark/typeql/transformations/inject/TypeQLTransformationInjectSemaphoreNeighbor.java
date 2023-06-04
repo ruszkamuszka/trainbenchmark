@@ -23,13 +23,15 @@ public class TypeQLTransformationInjectSemaphoreNeighbor <TTypeQLDriver extends 
 
 				System.out.println("Executing TypeQL Delete: SemaphoreNeighborInjectDelete");
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
-				//TODO Is this necessary?
+				System.out.println(query);
+
 				query = "match" +
 					"    $route isa Route, has id " + match.getRoute() + ", has entry $entry;" +
 					"insert" +
 					"    $route has entry 0;";
 
 				System.out.println("Executing TypeQL Insert: SemaphoreNeighborInjectInsert");
+				System.out.println(query);
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}

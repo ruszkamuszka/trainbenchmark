@@ -35,7 +35,6 @@ public class TypeQLSwitchSetInject extends TypeQLMainQuery<TypeQLSwitchSetInject
 				}
 			);
 		}, "READ");
-		System.out.println("SwitchSetInject size: " +matchMap.size());
 		return matchMap;
 	}
 

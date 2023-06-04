@@ -34,7 +34,6 @@ public class TypeQLPosLengthInject extends TypeQLMainQuery<TypeQLPosLengthInject
 				}
 			);
 		}, "READ");
-		System.out.println("PosLengthInject size: " +matchMap.size());
 		return matchMap;
 	}
 

@@ -35,7 +35,6 @@ public class TypeQLSemaphoreNeighborInject extends TypeQLMainQuery<TypeQLSemapho
 				}
 			);
 		}, "READ");
-		System.out.println("SemaphoreNeighborInject size: " +matchMap.size());
 		return matchMap;
 	}
 

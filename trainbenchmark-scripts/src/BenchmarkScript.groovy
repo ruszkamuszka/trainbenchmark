@@ -92,9 +92,9 @@ def workloads = [
 			RailwayOperation.SWITCHSET_REPAIR,
 			RailwayOperation.SWITCHMONITORED_REPAIR,
 		],
-		strategy: TransformationChangeSetStrategy.PROPORTIONAL,
+		strategy: TransformationChangeSetStrategy.FIXED,
 		constant: 5, // percent
-		queryTransformationCount: 8, // iterations
+		queryTransformationCount: 1, // iterations
 	]
 ]
 
