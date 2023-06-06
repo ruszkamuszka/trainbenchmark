@@ -23,8 +23,8 @@ public class TypeQLTransformationInjectConnectedSegments<TTypeQLDriver extends T
 					"delete" +
 					"    $connectsTo1 isa connectsTo;";
 
-				System.out.println("Executing TypeQL Delete: ConnectedSegmentsInjectDelete");
-				System.out.println(query);
+				//System.out.println("Executing TypeQL Delete: ConnectedSegmentsInjectDelete");
+				//System.out.println(query);
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 
 				query = "match" +
@@ -37,8 +37,8 @@ public class TypeQLTransformationInjectConnectedSegments<TTypeQLDriver extends T
 					"    $connectsTo3($segment2, $segment3) isa connectsTo;" +
 					"    $monitoredBy3($segment2, $sensor) isa monitoredBy;";
 
-				System.out.println("Executing TypeQL Insert: ConnectedSegmentsInjectInsert");
-				System.out.println(query);
+				//System.out.println("Executing TypeQL Insert: ConnectedSegmentsInjectInsert");
+				//System.out.println(query);
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}

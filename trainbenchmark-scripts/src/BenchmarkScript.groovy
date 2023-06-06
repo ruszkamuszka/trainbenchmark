@@ -22,8 +22,8 @@ ResultHelper.saveConfiguration(benchmarkId)
 def ec = new ExecutionConfig(2000, 4000)
 
 def minSize = 1
-def maxSize = 1
-def timeout = 180
+def maxSize = 5
+def timeout = 900
 def runs = 1
 
 println()
@@ -68,19 +68,19 @@ def workloads = [
 			RailwayOperation.CONNECTEDSEGMENTS,
 			RailwayOperation.POSLENGTH,
 			RailwayOperation.ROUTESENSOR,
-			//RailwayOperation.SEMAPHORENEIGHBOR,
+			RailwayOperation.SEMAPHORENEIGHBOR,
 			RailwayOperation.SWITCHSET,
 			RailwayOperation.SWITCHMONITORED,
 			RailwayOperation.CONNECTEDSEGMENTS_INJECT,
 			RailwayOperation.POSLENGTH_INJECT,
 			RailwayOperation.ROUTESENSOR_INJECT,
-			//RailwayOperation.SEMAPHORENEIGHBOR_INJECT,
+			RailwayOperation.SEMAPHORENEIGHBOR_INJECT,
 			RailwayOperation.SWITCHSET_INJECT,
 			RailwayOperation.SWITCHMONITORED_INJECT,
 		],
 		strategy: TransformationChangeSetStrategy.FIXED,
 		constant: 10, // elements
-		queryTransformationCount: 1, // iterations
+		queryTransformationCount: 6, // iterations
 	],
 	Repair: [
 		modelVariant: "repair",
@@ -88,13 +88,13 @@ def workloads = [
 			RailwayOperation.CONNECTEDSEGMENTS_REPAIR,
 			RailwayOperation.POSLENGTH_REPAIR,
 			RailwayOperation.ROUTESENSOR_REPAIR,
-			//RailwayOperation.SEMAPHORENEIGHBOR_REPAIR,
+			RailwayOperation.SEMAPHORENEIGHBOR_REPAIR,
 			RailwayOperation.SWITCHSET_REPAIR,
 			RailwayOperation.SWITCHMONITORED_REPAIR,
 		],
 		strategy: TransformationChangeSetStrategy.FIXED,
 		constant: 5, // percent
-		queryTransformationCount: 1, // iterations
+		queryTransformationCount: 2, // iterations
 	]
 ]
 

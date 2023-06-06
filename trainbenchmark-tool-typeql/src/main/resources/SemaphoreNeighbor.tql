@@ -1,13 +1,13 @@
 match
     $semaphore isa Semaphore, has id $semaphoreID;
-    $sensor1 isa Sensor;
-    $sensor2 isa Sensor;
+    $sensor1 isa Sensor, has id $sensor01;
+    $sensor2 isa Sensor, has id $sensor02;
     not { $sensor1 is $sensor2; };
-    $te1 isa Segment;
-    $te2 isa Segment;
+    $te1 isa Segment, has id $te01;
+    $te2 isa Segment, has id $te02;
     not { $te1 is $te2; };
-    $route1 isa Route, has exit $exit;
-    $route2 isa Route, has entry $entry;
+    $route1 isa Route, has exit $exit, has id $route01;
+    $route2 isa Route, has entry $entry, has id $route02;
     not { $route1 is $route2; };
     $exit = $semaphoreID;
     $entry != $semaphoreID;
@@ -17,4 +17,5 @@ match
     $monitoredBy1($te1, $sensor1) isa monitoredBy;
     $monitoredBy2($te2, $sensor2) isa monitoredBy;
     $connectedTo($te1, $te2) isa connectsTo;
-    
+get $exit, $route01, $route02, $sensor01, $sensor02, $te01, $te02;
+

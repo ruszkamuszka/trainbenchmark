@@ -21,20 +21,30 @@ public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnect
 	}
 
 	public Map<String, Object> connectedSegmentsInject() throws Exception {
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\ConnectedSegmentsInject.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\ConnectedSegmentsInject.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
 		Map<String, Object> matchMap = new HashMap<>();
 
 		driver.transaction(t -> {
-			String query = new String(fileBytes, StandardCharsets.UTF_8);
+			String query = "match"
+			+ "$sensor isa Sensor, has id $sensorID;"
+			+ "$segment1 isa Segment, has id $segment1ID;"
+			+ "$segment3 isa Segment, has id $segment3ID;"
+			+ "not { $segment1 is $segment3; };"
+			+ "$monitoredBy1(TrackElement: $segment1, Sensor: $sensor) isa monitoredBy;"
+			+ "$monitoredBy2(TrackElement: $segment3, Sensor: $sensor) isa monitoredBy;"
+			+ "$connectsTo1(TrackElement: $segment1, TrackElement: $segment3) isa connectsTo;"
+			+ "get"
+				+ "$sensorID, $segment1ID, $segment3ID;";
 
-			System.out.println("Executing TypeQL Query: ConnectedSegmentsInject");
-			var result = t.query().match(TypeQL.parseQuery(query).asMatch()).collect(Collectors.toList());
-			for (var element: result) {
-				matchMap.put(QueryConstants.VAR_SENSOR , element.get("sensorID").asAttribute().asLong().getValue());
-				matchMap.put(QueryConstants.VAR_SEGMENT1 , element.get("segment1ID").asAttribute().asLong().getValue());
-				matchMap.put(QueryConstants.VAR_SEGMENT3 , element.get("segment3ID").asAttribute().asLong().getValue());
-			}
+			//System.out.println("Executing TypeQL Query: ConnectedSegmentsInject");
+			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
+				{
+					matchMap.put(QueryConstants.VAR_SENSOR, result.get("sensorID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SEGMENT1, result.get("segment1ID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SEGMENT3, result.get("segment3ID").asAttribute().asLong().getValue());
+				}
+			);
 		}, "READ");
 		return matchMap;
 	}

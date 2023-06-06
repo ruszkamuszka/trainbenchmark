@@ -23,8 +23,8 @@ public class TypeQLTransformationInjectRouteSensor <TTypeQLDriver extends TypeQL
 					"delete" +
 					"    $require isa requires;";
 
-				System.out.println("Executing TypeQL Delete: RouteSensorInjectDelete");
-				System.out.println(query);
+				//System.out.println("Executing TypeQL Delete: RouteSensorInjectDelete");
+				//System.out.println(query);
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 			}, "WRITE");
 		}

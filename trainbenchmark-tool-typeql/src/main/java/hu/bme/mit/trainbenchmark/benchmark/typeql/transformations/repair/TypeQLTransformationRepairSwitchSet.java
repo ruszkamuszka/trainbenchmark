@@ -34,7 +34,7 @@ public class TypeQLTransformationRepairSwitchSet<TTypeQLDriver extends TypeQLDri
 					"delete" +
 					"    $switch has $currentposition;";
 
-				System.out.println("Executing TypeQL Delete: SwitchSetRepairDelete");
+				//System.out.println("Executing TypeQL Delete: SwitchSetRepairDelete");
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 
 				query = "match" +
@@ -42,7 +42,7 @@ public class TypeQLTransformationRepairSwitchSet<TTypeQLDriver extends TypeQLDri
 					"insert" +
 					"    $switch has position \"" + match.getPos() + "\";";
 
-				System.out.println("Executing TypeQL Insert: SwitchSetRepairInsert");
+				//System.out.println("Executing TypeQL Insert: SwitchSetRepairInsert");
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}

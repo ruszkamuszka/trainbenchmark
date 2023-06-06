@@ -35,7 +35,7 @@ public class TypeQLTransformationRepairPosLength<TTypeQLDriver extends TypeQLDri
 					"delete" +
 					"    $segment has $length;";
 
-				System.out.println("Executing TypeQL Delete: PosLengthRepairDelete");
+				//System.out.println("Executing TypeQL Delete: PosLengthRepairDelete");
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 
 				query = "match" +
@@ -43,7 +43,7 @@ public class TypeQLTransformationRepairPosLength<TTypeQLDriver extends TypeQLDri
 					"insert" +
 					"    $segment has length 10;";
 
-				System.out.println("Executing TypeQL Insert: PosLengthRepairInsert");
+				//System.out.println("Executing TypeQL Insert: PosLengthRepairInsert");
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}

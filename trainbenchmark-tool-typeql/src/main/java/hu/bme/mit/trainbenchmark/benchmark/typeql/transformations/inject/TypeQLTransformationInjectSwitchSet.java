@@ -21,8 +21,8 @@ public class TypeQLTransformationInjectSwitchSet <TTypeQLDriver extends TypeQLDr
 					"delete" +
 					"    $switch has $currentposition;";
 
-				System.out.println("Executing TypeQL Delete: SwitchSetInjectDelete");
-				System.out.println(query);
+				//System.out.println("Executing TypeQL Delete: SwitchSetInjectDelete");
+				//System.out.println(query);
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 
 				query = "match" +
@@ -30,8 +30,8 @@ public class TypeQLTransformationInjectSwitchSet <TTypeQLDriver extends TypeQLDr
 					"insert" +
 					"    $switch has position \"" + match.getNextValue() + "\";";
 
-				System.out.println("Executing TypeQL Insert: SwitchSetInjectInsert");
-				System.out.println(query);
+				//System.out.println("Executing TypeQL Insert: SwitchSetInjectInsert");
+				//System.out.println(query);
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}

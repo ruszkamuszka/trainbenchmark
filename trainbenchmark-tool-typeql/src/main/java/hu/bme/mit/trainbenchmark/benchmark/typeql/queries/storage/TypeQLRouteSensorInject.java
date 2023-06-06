@@ -20,14 +20,20 @@ public class TypeQLRouteSensorInject extends TypeQLMainQuery<TypeQLRouteSensorIn
 	}
 
 	public Map<String, Object> routeSensorInject() throws Exception{
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\RouteSensorInject.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\RouteSensorInject.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
 		Map<String, Object> matchMap = new HashMap<>();
 
 		driver.transaction(t -> {
-			String query = new String(fileBytes, StandardCharsets.UTF_8);
+			//String query = new String(fileBytes, StandardCharsets.UTF_8);
+			String query = "match"
+			+ "$route isa Route, has id $routeID;"
+			+ "$sensor isa Sensor, has id $sensorID;"
+			+ "$require(Route: $route, Sensor: $sensor) isa requires;"
+			+ "get"
+			+	"$routeID, $sensorID;";
 
-			System.out.println("Executing TypeQL Query: RouteSensorInject");
+			//System.out.println("Executing TypeQL Query: RouteSensorInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_ROUTE , result.get("routeID").asAttribute().asLong().getValue());

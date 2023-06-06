@@ -22,13 +22,49 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 	boolean found = false;
 
 	public Map<String, Object> connectedSegments() throws Exception {
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\ConnectedSegments.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\ConnectedSegments.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String query = new String(fileBytes, StandardCharsets.UTF_8);
+		String query = "match"
+		+ "$sensor isa Sensor, has id $sensorID;"
+		+ "$segment1 isa Segment, has id $segment1ID;"
+		+ "$segment2 isa Segment, has id $segment2ID;"
+		+ "$segment3 isa Segment, has id $segment3ID;"
+		+ "$segment4 isa Segment, has id $segment4ID;"
+		+ "$segment5 isa Segment, has id $segment5ID;"
+		+ "$segment6 isa Segment, has id $segment6ID;"
+		+ "not { $segment1 is $segment2; };"
+		+ "not { $segment1 is $segment3; };"
+		+ "not { $segment1 is $segment4; };"
+		+ "not { $segment1 is $segment5; };"
+		+ "not { $segment1 is $segment6; };"
+		+ "not { $segment2 is $segment3; };"
+		+ "not { $segment2 is $segment4; };"
+		+ "not { $segment2 is $segment5; };"
+		+ "not { $segment2 is $segment6; };"
+		+ "not { $segment3 is $segment4; };"
+		+ "not { $segment3 is $segment5; };"
+		+ "not { $segment3 is $segment6; };"
+		+ "not { $segment4 is $segment5; };"
+		+ "not { $segment4 is $segment6; };"
+		+ "not { $segment5 is $segment6; };"
+		+ "($segment1, $sensor) isa monitoredBy;"
+		+ "($segment2, $sensor) isa monitoredBy;"
+		+ "($segment3, $sensor) isa monitoredBy;"
+		+ "($segment4, $sensor) isa monitoredBy;"
+		+ "($segment5, $sensor) isa monitoredBy;"
+		+ "($segment6, $sensor) isa monitoredBy;"
+		+ "($segment1, $segment2) isa connectsTo;"
+		+ "($segment2, $segment3) isa connectsTo;"
+		+ "($segment3, $segment4) isa connectsTo;"
+		+ "($segment4, $segment5) isa connectsTo;"
+		+ "($segment5, $segment6) isa connectsTo;"
+		+ "get"
+		+ "$sensorID, $segment1ID, $segment2ID, $segment3ID, $segment4ID, $segment5ID, $segment6ID;";
 
-		String query = new String(fileBytes, StandardCharsets.UTF_8);
 		Map<String, Object> matchMap = new HashMap<>();
 		driver.transaction(t -> {
-			System.out.println("Executing TypeQL Query: ConnectedSegments");
+			//System.out.println("Executing TypeQL Query: ConnectedSegments");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 					{
 					 	matchMap.put(QueryConstants.VAR_SENSOR , result.get("sensorID").asAttribute().asLong().getValue());
@@ -52,7 +88,7 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 			if(found){
 				matches.add(new TypeQLConnectedSegmentsMatch(matchMap));
 			}
-			System.out.println("ConnectedSegments size: " +matches.size());
+			//System.out.println("ConnectedSegments size: " +matches.size());
 			return matches;
 	}
 

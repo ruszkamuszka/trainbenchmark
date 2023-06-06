@@ -238,9 +238,9 @@ public class ScalableModelGenerator extends ModelGenerator {
 
 			if (prevTracks != null && prevTracks.size() > 0 && currentTrack.size() > 0) {
 				serializer.createEdge(CONNECTS_TO, prevTracks.get(prevTracks.size() - 1), currentTrack.get(0));
-				System.out.println("Elvileg itt kotodik ossze az elozo route utolso segmentje a jelenlegi route elso segmensevel");
-				System.out.println(prevTracks.get(prevTracks.size() - 1));
-				System.out.println(currentTrack.get(0));
+				//System.out.println("Elvileg itt kotodik ossze az elozo route utolso segmentje a jelenlegi route elso segmensevel");
+				//System.out.println(prevTracks.get(prevTracks.size() - 1));
+				//System.out.println(currentTrack.get(0));
 			}
 
 			// loop the last track element of the last route to the first track element of the first route

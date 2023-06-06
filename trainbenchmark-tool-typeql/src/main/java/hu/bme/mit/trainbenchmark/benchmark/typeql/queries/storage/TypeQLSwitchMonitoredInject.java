@@ -20,14 +20,18 @@ public class TypeQLSwitchMonitoredInject extends TypeQLMainQuery<TypeQLSwitchMon
 	}
 
 	public Map<String, Object> switchMonitoredInject() throws Exception{
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchMonitoredInject.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchMonitoredInject.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
 		Map<String, Object> matchMap = new HashMap<>();
 
 		driver.transaction(t -> {
-			String query = new String(fileBytes, StandardCharsets.UTF_8);
+			//String query = new String(fileBytes, StandardCharsets.UTF_8);
+			String query = "match"
+			+ "$switch isa Switch, has id $switchID;"
+			+ "get"
+			+	"$switchID;";
 
-			System.out.println("Executing TypeQL Query: SwitchMonitoredInject");
+			//System.out.println("Executing TypeQL Query: SwitchMonitoredInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_SW , result.get("switchID").asAttribute().asLong().getValue());

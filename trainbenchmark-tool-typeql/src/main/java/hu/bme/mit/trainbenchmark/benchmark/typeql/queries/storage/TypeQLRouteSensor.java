@@ -22,13 +22,24 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 
 	boolean found = false;
 	public Map<String, Object> routeSensor() throws Exception {
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\RouteSensor.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
-		String query = new String(fileBytes, StandardCharsets.UTF_8);
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\RouteSensor.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String query = new String(fileBytes, StandardCharsets.UTF_8);
+		String query = "match"
+		+ "$route isa Route, has id $routeID;"
+		+ "$switchPosition isa SwitchPosition, has id $switchPositionID, has target $target;"
+		+ "$sensor isa Sensor, has id $sensorID;"
+		+ "$switch isa Switch, has id $switchID;"
+		+ "(Route: $route, SwitchPosition: $switchPosition) isa follows;"
+		+ "(TrackElement: $switch, Sensor: $sensor) isa monitoredBy;"
+		+ "$switchID=$target;"
+		+ "not { (Route: $route, Sensor: $sensor) isa requires;};"
+		+ "get"
+		+	"$routeID, $sensorID, $switchPositionID, $switchID;";
 
 		Map<String, Object> matchMap = new HashMap<>();
 		driver.transaction(t -> {
-			System.out.println("Executing TypeQL Query: RouteSensor");
+			//System.out.println("Executing TypeQL Query: RouteSensor");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_ROUTE, result.get("routeID").asAttribute().asLong().getValue());
@@ -49,7 +60,7 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 		if(found){
 			matches.add(new TypeQLRouteSensorMatch(matchMap));
 		}
-		System.out.println("RouteSensor size: " +matches.size() +"  "+ matchMap.get(QueryConstants.VAR_ROUTE)+"  "+ matchMap.get(QueryConstants.VAR_SENSOR));
+		//System.out.println("RouteSensor size: " +matches.size() +"  "+ matchMap.get(QueryConstants.VAR_ROUTE)+"  "+ matchMap.get(QueryConstants.VAR_SENSOR));
 		return matches;
 	}
 }

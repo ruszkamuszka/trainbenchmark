@@ -34,7 +34,7 @@ public class TypeQLTransformationRepairSemaphoreNeighbor<TTypeQLDriver extends T
 					"delete" +
 					"    $route has $entry;";
 
-				System.out.println("Executing TypeQL Delete: SemaphoreNeighborRepairDelete");
+				//System.out.println("Executing TypeQL Delete: SemaphoreNeighborRepairDelete");
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 
 				query = "match" +
@@ -42,7 +42,7 @@ public class TypeQLTransformationRepairSemaphoreNeighbor<TTypeQLDriver extends T
 					"insert" +
 					"    $route has entry " + match.getSemaphore() + ";";
 
-				System.out.println("Executing TypeQL Insert: SemaphoreNeighborRepairInsert");
+				//System.out.println("Executing TypeQL Insert: SemaphoreNeighborRepairInsert");
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}

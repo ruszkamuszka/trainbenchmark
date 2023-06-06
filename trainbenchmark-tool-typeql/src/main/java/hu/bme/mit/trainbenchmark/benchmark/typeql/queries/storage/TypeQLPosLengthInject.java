@@ -20,14 +20,17 @@ public class TypeQLPosLengthInject extends TypeQLMainQuery<TypeQLPosLengthInject
 	}
 
 	public Map<String, Object> posLengthInject() throws Exception{
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\PosLengthInject.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\PosLengthInject.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
 		Map<String, Object> matchMap = new HashMap<>();
 
 		driver.transaction(t -> {
-			String query = new String(fileBytes, StandardCharsets.UTF_8);
+			String query = "match"
+			+ "$segment isa Segment, has id $segmentID, has length $length;"
+			+ "get"
+			+	"$segmentID;";
 
-			System.out.println("Executing TypeQL Query: PosLengthInject");
+			//System.out.println("Executing TypeQL Query: PosLengthInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_SEGMENT , result.get("segmentID").asAttribute().asLong().getValue());

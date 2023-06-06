@@ -21,13 +21,17 @@ public class TypeQLSwitchMonitored extends TypeQLMainQuery<TypeQLSwitchMonitored
 
 	boolean found = false;
 	public Map<String, Object> switchMonitored() throws Exception{
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchMonitored.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
-		String query = new String(fileBytes, StandardCharsets.UTF_8);
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchMonitored.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String query = new String(fileBytes, StandardCharsets.UTF_8);
+		String query = "match"
+		+ "$switch isa Switch, has id $switchID;"
+		+ "not{ (Sensor: $sensor, TrackElement: $switch) isa monitoredBy; };"
+		+ "get" + "$switchID;";
 
 		Map<String, Object> matchMap = new HashMap<>();
 		driver.transaction(t -> {
-			System.out.println("Executing TypeQL Query: SwitchMonitored");
+			//System.out.println("Executing TypeQL Query: SwitchMonitored");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().asLong().getValue());
@@ -45,7 +49,7 @@ public class TypeQLSwitchMonitored extends TypeQLMainQuery<TypeQLSwitchMonitored
 		if (found){
 			matches.add(new TypeQLSwitchMonitoredMatch(matchMap));
 		}
-		System.out.println("SwitchMonitored size: " +matches.size());
+		//System.out.println("SwitchMonitored size: " +matches.size());
 		return matches;
 	}
 }

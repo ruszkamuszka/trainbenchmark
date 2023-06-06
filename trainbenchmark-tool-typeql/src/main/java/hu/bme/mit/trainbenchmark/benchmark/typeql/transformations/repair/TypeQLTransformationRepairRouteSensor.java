@@ -35,8 +35,8 @@ public class TypeQLTransformationRepairRouteSensor<TTypeQLDriver extends TypeQLD
 					"insert" +
 					"    $require(Route: $route, Sensor: $sensor) isa requires;";
 
-				System.out.println("Executing TypeQL Insert: RouteSensorRepairInsert");
-				System.out.println(query);
+				//System.out.println("Executing TypeQL Insert: RouteSensorRepairInsert");
+				//System.out.println(query);
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}

@@ -20,14 +20,20 @@ public class TypeQLSemaphoreNeighborInject extends TypeQLMainQuery<TypeQLSemapho
 	}
 
 	public Map<String, Object> semaphoreNeighborInject() throws Exception{
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SemaphoreNeighborInject.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SemaphoreNeighborInject.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
 		Map<String, Object> matchMap = new HashMap<>();
 
 		driver.transaction(t -> {
-			String query = new String(fileBytes, StandardCharsets.UTF_8);
+			//String query = new String(fileBytes, StandardCharsets.UTF_8);
+			String query = "match"
+			+ "$semaphore isa Semaphore, has id $semaphoreID;"
+			+ "$route isa Route, has id $routeID, has entry $entry;"
+			+ "$entry = $semaphoreID;"
+			+ "get"
+			+	"$semaphoreID, $routeID;";
 
-			System.out.println("Executing TypeQL Query: SemaphoreNeighborInject");
+			//System.out.println("Executing TypeQL Query: SemaphoreNeighborInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_SEMAPHORE , result.get("semaphoreID").asAttribute().asLong().getValue());

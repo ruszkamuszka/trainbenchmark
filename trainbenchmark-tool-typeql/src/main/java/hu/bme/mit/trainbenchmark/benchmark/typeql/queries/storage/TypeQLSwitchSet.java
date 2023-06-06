@@ -21,13 +21,24 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 
 	boolean found = false;
 	public Map<String, Object> switchSet() throws Exception {
-		String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchSet.tql";
-		byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
-		String query = new String(fileBytes, StandardCharsets.UTF_8);
+		//String filePath = "C:\\NewTrainBenchmark\\trainbenchmark\\trainbenchmark-tool-typeql\\src\\main\\resources\\SwitchSet.tql";
+		//byte[] fileBytes = Files.readAllBytes(Paths.get(filePath));
+		//String query = new String(fileBytes, StandardCharsets.UTF_8);
+		String query = "match"
+		+ "$semaphore isa Semaphore, has id $semaphoreID, has signal 'GO';"
+		+ "$switch isa Switch, has id $switchID, has position $currentposition;"
+		+ "$switchPosition isa SwitchPosition, has id $swpID, has target $target, has position $position;"
+		+ "$route isa Route, has id $routeID, has active true, has entry $entry;"
+		+ "$entry = $semaphoreID;"
+		+ "$target = $switchID;"
+		+ "$follows($route, $switchPosition);"
+		+ "$currentposition != $position;"
+		+ "get"
+		+ "$semaphoreID, $routeID, $swpID, $switchID, $position, $currentposition;";
 
 		Map<String, Object> matchMap = new HashMap<>();
 		driver.transaction(t -> {
-			System.out.println("Executing TypeQL Query: SwitchSet");
+			//System.out.println("Executing TypeQL Query: SwitchSet");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
 					matchMap.put(QueryConstants.VAR_SEMAPHORE, result.get("semaphoreID").asAttribute().asLong().getValue());
@@ -50,7 +61,7 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 		if(found){
 			matches.add(new TypeQLSwitchSetMatch(matchMap));
 		}
-		System.out.println("SwitchSet size: " +matches.size());
+		//System.out.println("SwitchSet size: " +matches.size());
 		return matches;
 	}
 }

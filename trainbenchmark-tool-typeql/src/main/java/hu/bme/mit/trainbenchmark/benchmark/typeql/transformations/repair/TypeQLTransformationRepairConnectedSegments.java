@@ -43,7 +43,7 @@ public class TypeQLTransformationRepairConnectedSegments<TTypeQLDriver extends T
 					"    $monitoredBy3 isa monitoredBy;" +
 					"    $segment2 isa Segment;";
 
-				System.out.println("Executing TypeQL Delete: ConnectedSegmentsRepairDelete");
+				//System.out.println("Executing TypeQL Delete: ConnectedSegmentsRepairDelete");
 				t.query().delete(TypeQL.parseQuery(query).asDelete());
 
 				query = "match" +
@@ -53,7 +53,7 @@ public class TypeQLTransformationRepairConnectedSegments<TTypeQLDriver extends T
 					"insert" +
 					"    $connectsTo1(TrackElement: $segment1, TrackElement: $segment3) isa connectsTo;";
 
-				System.out.println("Executing TypeQL Insert: ConnectedSegmentsRepairInsert");
+				//System.out.println("Executing TypeQL Insert: ConnectedSegmentsRepairInsert");
 				t.query().insert(TypeQL.parseQuery(query).asInsert());
 			}, "WRITE");
 		}

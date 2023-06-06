@@ -6,7 +6,7 @@ import hu.bme.mit.trainbenchmark.generator.typeql.config.TypeQLGeneratorConfigBu
 
 def ec = new ExecutionConfig(4000, 6000)
 def minSize = 1
-def maxSize = 1
+def maxSize = 5
 
 def scenarios = [
 	Scenario.BATCH,
