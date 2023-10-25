@@ -1,14 +1,13 @@
 package hu.bme.mit.trainbenchmark.generator.runner;
 
-import java.io.File;
-import java.io.IOException;
-
+import hu.bme.mit.trainbenchmark.config.ExecutionConfig;
+import hu.bme.mit.trainbenchmark.generator.config.GeneratorConfig;
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
 import org.apache.commons.exec.ExecuteException;
 
-import hu.bme.mit.trainbenchmark.config.ExecutionConfig;
-import hu.bme.mit.trainbenchmark.generator.config.GeneratorConfig;
+import java.io.File;
+import java.io.IOException;
 
 public class GeneratorRunner {
 
@@ -18,7 +17,7 @@ public class GeneratorRunner {
 		gc.saveToFile(configPath);
 
 		final String projectName = String.format("trainbenchmark-generator-%s", gc.getProjectName());
-		final String jarPath = String.format("../%s/build/libs/%s-1.0.0-SNAPSHOT-fat.jar", projectName, projectName);
+		final String jarPath = String.format("../%s/build/libs/%s-1.0.0-SNAPSHOT-windows-x86_64-fat.jar", projectName, projectName);
 		final String javaCommand = String.format("java -Xms%s -Xmx%s -server -jar %s %s", ec.getXms(), ec.getXmx(),
 				jarPath, configPath);
 

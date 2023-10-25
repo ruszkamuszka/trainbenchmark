@@ -32,7 +32,7 @@ public class BenchmarkRunner {
 		bc.saveToFile(configPath);
 
 		final String projectName = String.format("trainbenchmark-tool-%s", bc.getProjectName());
-		final String jarPath = String.format("../%s/build/libs/%s-1.0.0-SNAPSHOT-fat.jar %s", projectName, projectName,
+		final String jarPath = String.format("../%s/build/libs/%s-1.0.0-SNAPSHOT-windows-x86_64-fat.jar", projectName, projectName,
 				configPath);
 
 		final String javaCommand = String.format("java -Xms%s -Xmx%s -server -jar %s %s", ec.getXms(), ec.getXmx(),

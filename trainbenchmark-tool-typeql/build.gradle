@@ -1,0 +1,11 @@
+apply plugin: 'com.github.johnrengelman.shadow'
+
+shadowJar {
+    classifier = 'fat'
+    manifest { attributes 'Main-Class': 'hu.bme.mit.trainbenchmark.benchmark.typeql.TypeQLBenchmarkMain' }
+}
+
+dependencies {
+    compile project(':trainbenchmark-tool')
+    compile project(':trainbenchmark-format-typeql')
+}

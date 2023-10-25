@@ -1,6 +1,6 @@
 allprojects  {
 	group = 'hu.bme.mit.trainbenchmark'
-	version = '1.0.0-SNAPSHOT'
+	version = '1.0.0-SNAPSHOT-windows-x86_64'
 }
 
 subprojects {
@@ -52,4 +52,8 @@ ext {
 	tinkerGraphVersion = '3.2.5'
 	viatraVersion = '1.6.1'
 	xtextVersion = '2.26.0'
+<<<<<<< Updated upstream
+=======
+	typedbVersion = '2.24.15'
+>>>>>>> Stashed changes
 }
