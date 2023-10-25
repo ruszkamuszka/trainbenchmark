@@ -1,16 +1,16 @@
 package hu.bme.mit.trainbenchmark.benchmark.typeql.driver;
 
-import com.vaticle.typedb.client.TypeDB;
-import com.vaticle.typedb.client.api.TypeDBClient;
-import com.vaticle.typedb.client.api.TypeDBOptions;
-import com.vaticle.typedb.client.api.TypeDBSession;
-import com.vaticle.typedb.client.api.TypeDBTransaction;
+import com.vaticle.typedb.driver.TypeDB;
+import com.vaticle.typedb.driver.api.TypeDBDriver;
+import com.vaticle.typedb.driver.api.TypeDBOptions;
+import com.vaticle.typedb.driver.api.TypeDBSession;
+import com.vaticle.typedb.driver.api.TypeDBTransaction;
 import hu.bme.mit.trainbenchmark.benchmark.driver.Driver;
 
 import java.util.function.Consumer;
 
 public class TypeQLDriver extends Driver {
-	TypeDBClient client;
+	TypeDBDriver client;
 	TypeDBSession session;
 	TypeDBTransaction transaction;
 
@@ -18,13 +18,13 @@ public class TypeQLDriver extends Driver {
 
 	public TypeQLDriver(){
 		super();
-		options = TypeDBOptions.core();
+		options = new TypeDBOptions();
 		options.transactionTimeoutMillis(3000000);
 	}
 	public static void transaction(Consumer<TypeDBTransaction> queries, final String mode) {
-		TypeDBClient client = TypeDB.coreClient("localhost:1729");
+		TypeDBDriver client = TypeDB.coreDriver("localhost:1729");
 		TypeDBSession session = client.session("TRAIN0522", TypeDBSession.Type.DATA);
-		TypeDBOptions options = TypeDBOptions.core().infer(true);
+		TypeDBOptions options = new TypeDBOptions();
 		TypeDBTransaction transaction = mode == "WRITE"
 			? session.transaction(TypeDBTransaction.Type.WRITE, options)
 			: session.transaction(TypeDBTransaction.Type.READ, options);
@@ -51,7 +51,7 @@ public class TypeQLDriver extends Driver {
 		}catch(final Exception e){
 			//do nothing
 		}
-		client = TypeDB.coreClient("localhost:1729");
+		client = TypeDB.coreDriver("localhost:1729");
 		if(!client.databases().contains("TRAIN0522")){
 			System.out.println("The TRAIN0522 database does not exist!");
 		}else{

@@ -41,12 +41,12 @@ public class TypeQLSwitchSet extends TypeQLMainQuery<TypeQLSwitchSetMatch>{
 			//System.out.println("Executing TypeQL Query: SwitchSet");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_SEMAPHORE, result.get("semaphoreID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_ROUTE, result.get("routeID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SWP, result.get("swpID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_POSITION, result.get("position").asAttribute().asString().getValue());
-					matchMap.put(QueryConstants.VAR_CURRENTPOSITION, result.get("currentposition").asAttribute().asString().getValue());
+					matchMap.put(QueryConstants.VAR_SEMAPHORE, result.get("semaphoreID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_ROUTE, result.get("routeID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SWP, result.get("swpID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_POSITION, result.get("position").asAttribute().getValue().asString());
+					matchMap.put(QueryConstants.VAR_CURRENTPOSITION, result.get("currentposition").asAttribute().getValue().asString());
 				}
 			);
 		}, "READ");

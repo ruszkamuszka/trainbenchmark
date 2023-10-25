@@ -50,13 +50,13 @@ public class TypeQLSemaphoreNeighbor extends TypeQLMainQuery<TypeQLSemaphoreNeig
 			//System.out.println("Executing TypeQL Query: SemaphoreNeighbor");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_SEMAPHORE, result.get("exit").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_ROUTE1, result.get("route01").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_ROUTE2, result.get("route02").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SENSOR1, result.get("sensor01").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SENSOR2, result.get("sensor02").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_TE1, result.get("te01").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_TE2, result.get("te02").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SEMAPHORE, result.get("exit").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_ROUTE1, result.get("route01").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_ROUTE2, result.get("route02").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SENSOR1, result.get("sensor01").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SENSOR2, result.get("sensor02").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_TE1, result.get("te01").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_TE2, result.get("te02").asAttribute().getValue().asLong());
 				}
 			);
 		}, "READ");

@@ -1,7 +1,7 @@
 package hu.bme.mit.trainbenchmark.typeql.schema;
 
-import com.vaticle.typedb.client.api.TypeDBSession;
-import com.vaticle.typedb.client.api.TypeDBTransaction;
+import com.vaticle.typedb.driver.api.TypeDBSession;
+import com.vaticle.typedb.driver.api.TypeDBTransaction;
 import com.vaticle.typeql.lang.TypeQL;
 import com.vaticle.typeql.lang.common.TypeQLArg;
 import com.vaticle.typeql.lang.query.TypeQLDefine;
@@ -62,7 +62,7 @@ public class TypeQLSchema {
 					.plays("connectsTo", "TrackElement")
 					.plays("monitoredBy","TrackElement"),
 				type("RailwayContainer").sub("entity").isAbstract()
-					.owns("id", true),
+					.owns("id"),
 
 				//edges, relations
 				type("connectsTo").sub("relation").relates("TrackElement").relates("TrackElement"),

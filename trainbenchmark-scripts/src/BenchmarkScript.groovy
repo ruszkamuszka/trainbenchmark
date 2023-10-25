@@ -9,14 +9,6 @@ import hu.bme.mit.trainbenchmark.benchmark.typeql.config.TypeQLBenchmarkConfigBu
 import hu.bme.mit.trainbenchmark.config.ExecutionConfig
 import hu.bme.mit.trainbenchmark.constants.RailwayOperation
 
-/*println('Please remember to stop all other Java processes.')
-println()
-println('If in doubt, check with this command:')
-println('$ ps auxw | grep jav[a]')
-println()
-println('If there are other Java processes, use:')
-println('$ killall -9 java')*/
-
 def benchmarkId = ResultHelper.createNewResultDir()
 ResultHelper.saveConfiguration(benchmarkId)
 def ec = new ExecutionConfig(2000, 4000)
@@ -65,13 +57,13 @@ def workloads = [
 	Inject: [
 		modelVariant: "inject",
 		operations: [
-			RailwayOperation.CONNECTEDSEGMENTS,
+			//RailwayOperation.CONNECTEDSEGMENTS,
 			RailwayOperation.POSLENGTH,
 			RailwayOperation.ROUTESENSOR,
 			RailwayOperation.SEMAPHORENEIGHBOR,
 			RailwayOperation.SWITCHSET,
 			RailwayOperation.SWITCHMONITORED,
-			RailwayOperation.CONNECTEDSEGMENTS_INJECT,
+			//RailwayOperation.CONNECTEDSEGMENTS_INJECT,
 			RailwayOperation.POSLENGTH_INJECT,
 			RailwayOperation.ROUTESENSOR_INJECT,
 			RailwayOperation.SEMAPHORENEIGHBOR_INJECT,
@@ -85,7 +77,7 @@ def workloads = [
 	Repair: [
 		modelVariant: "repair",
 		operations: [
-			RailwayOperation.CONNECTEDSEGMENTS_REPAIR,
+			//RailwayOperation.CONNECTEDSEGMENTS_REPAIR,
 			RailwayOperation.POSLENGTH_REPAIR,
 			RailwayOperation.ROUTESENSOR_REPAIR,
 			RailwayOperation.SEMAPHORENEIGHBOR_REPAIR,

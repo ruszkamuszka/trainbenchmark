@@ -34,7 +34,7 @@ public class TypeQLSwitchMonitored extends TypeQLMainQuery<TypeQLSwitchMonitored
 			//System.out.println("Executing TypeQL Query: SwitchMonitored");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().getValue().asLong());
 				}
 			);
 		}, "READ");

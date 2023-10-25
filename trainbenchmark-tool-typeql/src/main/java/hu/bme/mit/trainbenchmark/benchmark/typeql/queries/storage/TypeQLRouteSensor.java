@@ -42,10 +42,10 @@ public class TypeQLRouteSensor extends TypeQLMainQuery<TypeQLRouteSensorMatch>{
 			//System.out.println("Executing TypeQL Query: RouteSensor");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_ROUTE, result.get("routeID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SENSOR, result.get("sensorID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SWP, result.get("switchPositionID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_ROUTE, result.get("routeID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SENSOR, result.get("sensorID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SWP, result.get("switchPositionID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SW, result.get("switchID").asAttribute().getValue().asLong());
 				}
 			);
 		}, "READ");

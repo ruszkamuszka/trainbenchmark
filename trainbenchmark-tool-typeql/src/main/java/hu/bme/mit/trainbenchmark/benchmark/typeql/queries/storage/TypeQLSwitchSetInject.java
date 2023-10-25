@@ -34,8 +34,8 @@ public class TypeQLSwitchSetInject extends TypeQLMainQuery<TypeQLSwitchSetInject
 			//System.out.println("Executing TypeQL Query: SwitchSetInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_SW , result.get("switchID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_CURRENTPOSITION , result.get("currentposition").asAttribute().asString().getValue());
+					matchMap.put(QueryConstants.VAR_SW , result.get("switchID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_CURRENTPOSITION , result.get("currentposition").asAttribute().getValue().asString());
 				}
 			);
 		}, "READ");

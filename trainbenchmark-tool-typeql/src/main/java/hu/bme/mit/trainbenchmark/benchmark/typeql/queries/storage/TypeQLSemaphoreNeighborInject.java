@@ -36,8 +36,8 @@ public class TypeQLSemaphoreNeighborInject extends TypeQLMainQuery<TypeQLSemapho
 			//System.out.println("Executing TypeQL Query: SemaphoreNeighborInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_SEMAPHORE , result.get("semaphoreID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_ROUTE , result.get("routeID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SEMAPHORE , result.get("semaphoreID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_ROUTE , result.get("routeID").asAttribute().getValue().asLong());
 				}
 			);
 		}, "READ");

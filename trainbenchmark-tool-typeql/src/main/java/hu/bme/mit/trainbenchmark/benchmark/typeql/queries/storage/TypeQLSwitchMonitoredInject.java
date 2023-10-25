@@ -34,7 +34,7 @@ public class TypeQLSwitchMonitoredInject extends TypeQLMainQuery<TypeQLSwitchMon
 			//System.out.println("Executing TypeQL Query: SwitchMonitoredInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_SW , result.get("switchID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SW , result.get("switchID").asAttribute().getValue().asLong());
 				}
 			);
 		}, "READ");

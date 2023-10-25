@@ -67,13 +67,13 @@ public class TypeQLConnectedSegments extends TypeQLMainQuery<TypeQLConnectedSegm
 			//System.out.println("Executing TypeQL Query: ConnectedSegments");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 					{
-					 	matchMap.put(QueryConstants.VAR_SENSOR , result.get("sensorID").asAttribute().asLong().getValue());
-						matchMap.put(QueryConstants.VAR_SEGMENT1 , result.get("segment1ID").asAttribute().asLong().getValue());
-						matchMap.put(QueryConstants.VAR_SEGMENT2 , result.get("segment2ID").asAttribute().asLong().getValue());
-						matchMap.put(QueryConstants.VAR_SEGMENT3 , result.get("segment3ID").asAttribute().asLong().getValue());
-						matchMap.put(QueryConstants.VAR_SEGMENT4 , result.get("segment4ID").asAttribute().asLong().getValue());
-						matchMap.put(QueryConstants.VAR_SEGMENT5 , result.get("segment5ID").asAttribute().asLong().getValue());
-						matchMap.put(QueryConstants.VAR_SEGMENT6 , result.get("segment6ID").asAttribute().asLong().getValue());
+					 	matchMap.put(QueryConstants.VAR_SENSOR , result.get("sensorID").asAttribute().getValue().asLong());
+						matchMap.put(QueryConstants.VAR_SEGMENT1 , result.get("segment1ID").asAttribute().getValue().asLong());
+						matchMap.put(QueryConstants.VAR_SEGMENT2 , result.get("segment2ID").asAttribute().getValue().asLong());
+						matchMap.put(QueryConstants.VAR_SEGMENT3 , result.get("segment3ID").asAttribute().getValue().asLong());
+						matchMap.put(QueryConstants.VAR_SEGMENT4 , result.get("segment4ID").asAttribute().getValue().asLong());
+						matchMap.put(QueryConstants.VAR_SEGMENT5 , result.get("segment5ID").asAttribute().getValue().asLong());
+						matchMap.put(QueryConstants.VAR_SEGMENT6 , result.get("segment6ID").asAttribute().getValue().asLong());
 					}
 			);
 		}, "READ");

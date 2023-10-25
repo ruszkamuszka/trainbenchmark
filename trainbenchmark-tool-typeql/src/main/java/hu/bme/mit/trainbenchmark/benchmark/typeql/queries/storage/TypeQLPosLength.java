@@ -6,9 +6,6 @@ import hu.bme.mit.trainbenchmark.benchmark.typeql.matches.TypeQLPosLengthMatch;
 import hu.bme.mit.trainbenchmark.constants.QueryConstants;
 import hu.bme.mit.trainbenchmark.constants.RailwayQuery;
 
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -35,7 +32,7 @@ public class TypeQLPosLength extends TypeQLMainQuery<TypeQLPosLengthMatch>{
 			//System.out.println("Executing TypeQL Query: PosLength");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_SEGMENT, result.get("segmentID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SEGMENT, result.get("segmentID").asAttribute().getValue().asLong());
 				}
 			);
 		}, "READ");

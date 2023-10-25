@@ -40,9 +40,9 @@ public class TypeQLConnectedSegmentsInject extends TypeQLMainQuery<TypeQLConnect
 			//System.out.println("Executing TypeQL Query: ConnectedSegmentsInject");
 			t.query().match(TypeQL.parseQuery(query).asMatch()).forEach(result ->
 				{
-					matchMap.put(QueryConstants.VAR_SENSOR, result.get("sensorID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SEGMENT1, result.get("segment1ID").asAttribute().asLong().getValue());
-					matchMap.put(QueryConstants.VAR_SEGMENT3, result.get("segment3ID").asAttribute().asLong().getValue());
+					matchMap.put(QueryConstants.VAR_SENSOR, result.get("sensorID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SEGMENT1, result.get("segment1ID").asAttribute().getValue().asLong());
+					matchMap.put(QueryConstants.VAR_SEGMENT3, result.get("segment3ID").asAttribute().getValue().asLong());
 				}
 			);
 		}, "READ");
