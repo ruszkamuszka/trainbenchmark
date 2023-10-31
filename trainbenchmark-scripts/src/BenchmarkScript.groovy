@@ -14,9 +14,9 @@ ResultHelper.saveConfiguration(benchmarkId)
 def ec = new ExecutionConfig(2000, 4000)
 
 def minSize = 1
-def maxSize = 5
+def maxSize = 4
 def timeout = 900
-def runs = 1
+def runs = 6
 
 println()
 println("############################################################")
@@ -60,19 +60,19 @@ def workloads = [
 			//RailwayOperation.CONNECTEDSEGMENTS,
 			RailwayOperation.POSLENGTH,
 			RailwayOperation.ROUTESENSOR,
-			RailwayOperation.SEMAPHORENEIGHBOR,
+			//RailwayOperation.SEMAPHORENEIGHBOR,
 			RailwayOperation.SWITCHSET,
 			RailwayOperation.SWITCHMONITORED,
 			//RailwayOperation.CONNECTEDSEGMENTS_INJECT,
 			RailwayOperation.POSLENGTH_INJECT,
 			RailwayOperation.ROUTESENSOR_INJECT,
-			RailwayOperation.SEMAPHORENEIGHBOR_INJECT,
+			//RailwayOperation.SEMAPHORENEIGHBOR_INJECT,
 			RailwayOperation.SWITCHSET_INJECT,
 			RailwayOperation.SWITCHMONITORED_INJECT,
 		],
 		strategy: TransformationChangeSetStrategy.FIXED,
 		constant: 10, // elements
-		queryTransformationCount: 6, // iterations
+		queryTransformationCount: 12, // iterations
 	],
 	Repair: [
 		modelVariant: "repair",
@@ -80,20 +80,20 @@ def workloads = [
 			//RailwayOperation.CONNECTEDSEGMENTS_REPAIR,
 			RailwayOperation.POSLENGTH_REPAIR,
 			RailwayOperation.ROUTESENSOR_REPAIR,
-			RailwayOperation.SEMAPHORENEIGHBOR_REPAIR,
+			//RailwayOperation.SEMAPHORENEIGHBOR_REPAIR,
 			RailwayOperation.SWITCHSET_REPAIR,
 			RailwayOperation.SWITCHMONITORED_REPAIR,
 		],
-		strategy: TransformationChangeSetStrategy.FIXED,
+		strategy: TransformationChangeSetStrategy.PROPORTIONAL,
 		constant: 5, // percent
-		queryTransformationCount: 2, // iterations
+		queryTransformationCount: 8, // iterations
 	]
 ]
 
 def runBenchmarkSeries(BenchmarkConfigBaseBuilder configBaseBuilder, BenchmarkConfigBuilder configBuilder,
 		ExecutionConfig ec, ModelSetConfig modelSetConfig) {
 	try {
-		for (def size = modelSetConfig.minSize; size <= modelSetConfig.maxSize; size += 1) {
+		for (def size = modelSetConfig.minSize; size <= modelSetConfig.maxSize; size *= 2) {
 			def modelFilename = "railway-${modelSetConfig.modelVariant}-${size}"
 
 			println("------------------------------------------------------------")
