@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import static com.vaticle.typeql.lang.TypeQL.cVar;
 import static hu.bme.mit.trainbenchmark.constants.ModelConstants.*;
@@ -23,8 +24,9 @@ import static hu.bme.mit.trainbenchmark.constants.ModelConstants.*;
 public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 
 	private List<ConceptMap> insertedIds;
-
+	Random random = new Random(0);
 	private long id = 1;
+	private long edge = 1;
 	private TypeDBTransaction writeTransaction;
 	private TypeDBSession session;
 	private TypeDBDriver client;
@@ -48,6 +50,8 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 
 	@Override
 	public void persistModel() throws Exception {
+		System.out.println("Final node: " + id);
+		System.out.println("Final edge: " + edge);
 		session.close();
 		client.close();
 	}
@@ -121,6 +125,7 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 
 	@Override
 	public void createEdge(String label, Object from, Object to) throws IOException {
+		edge++;
 		if (from == null || to == null) {
 			return;
 		}
@@ -148,14 +153,18 @@ public class TypeQLSerializer extends ModelSerializer<TypeQLGeneratorConfig> {
 			writeTransaction.commit();
 		}
 		if(label.equals(REQUIRES)){
-			query = TypeQL.match(
-				cVar(from.toString()).isa(ROUTE).has("id",(long)from),
-				cVar(to.toString()).isa(SENSOR).has("id",(long)to)
-			).insert(
-				cVar(label).rel(ROUTE, UnboundConceptVariable.named(from.toString())).rel(SENSOR, UnboundConceptVariable.named(to.toString())).isa(label)
-			);
-			writeTransaction.query().insert(query);
-			writeTransaction.commit();
+			int n = random.nextInt(2);
+			if(n != 0){
+				query = TypeQL.match(
+					cVar(from.toString()).isa(ROUTE).has("id",(long)from),
+					cVar(to.toString()).isa(SENSOR).has("id",(long)to)
+				).insert(
+					cVar(label).rel(ROUTE, UnboundConceptVariable.named(from.toString())).rel(SENSOR, UnboundConceptVariable.named(to.toString())).isa(label)
+				);
+				writeTransaction.query().insert(query);
+				writeTransaction.commit();
+			}
+
 		}
 		if(label.equals(ELEMENTS)){
 			query = TypeQL.match(

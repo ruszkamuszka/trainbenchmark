@@ -12,10 +12,9 @@
 
 package hu.bme.mit.trainbenchmark.generator.graph.neo4j.config;
 
-import com.google.common.base.Preconditions;
-
 import hu.bme.mit.trainbenchmark.generator.config.GeneratorConfigBuilder;
 import hu.bme.mit.trainbenchmark.neo4j.config.Neo4jGraphFormat;
+import com.google.common.base.Preconditions;
 
 public class Neo4jGraphGeneratorConfigBuilder extends GeneratorConfigBuilder<Neo4jGraphGeneratorConfig, Neo4jGraphGeneratorConfigBuilder> {
 

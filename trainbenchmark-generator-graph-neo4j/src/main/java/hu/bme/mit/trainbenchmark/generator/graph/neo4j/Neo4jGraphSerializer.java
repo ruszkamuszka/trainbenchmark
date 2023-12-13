@@ -69,6 +69,7 @@ public class Neo4jGraphSerializer extends ModelSerializer<Neo4jGraphGeneratorCon
 		if (ModelConstants.SUPERTYPES.containsKey(type)) {
 			final String ancestor = ModelConstants.SUPERTYPES.get(type);
 			node.addLabel(Label.label(ancestor));
+
 		}
 
 		node.setProperty(ModelConstants.ID, id);
@@ -96,7 +97,7 @@ public class Neo4jGraphSerializer extends ModelSerializer<Neo4jGraphGeneratorCon
 				sourceNode.createRelationshipTo(node, relationship(label));
 			}
 		}
-
+		//System.out.println("Hoppacska" + id);
 		return node;
 	}
 
@@ -119,6 +120,7 @@ public class Neo4jGraphSerializer extends ModelSerializer<Neo4jGraphGeneratorCon
 
 		final RelationshipType relationshipType = relationship(label);
 		source.createRelationshipTo(target, relationshipType);
+		//System.out.println("Ott a finom " + label);
 	}
 
 	public RelationshipType relationship(final String label) {
