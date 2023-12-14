@@ -8,16 +8,17 @@ import hu.bme.mit.trainbenchmark.benchmark.result.ResultHelper
 import hu.bme.mit.trainbenchmark.benchmark.runcomponents.BenchmarkRunner
 import hu.bme.mit.trainbenchmark.config.ExecutionConfig
 import hu.bme.mit.trainbenchmark.constants.RailwayOperation
+import hu.bme.mit.trainbenchmark.neo4j.config.Neo4jDeployment
 import hu.bme.mit.trainbenchmark.neo4j.config.Neo4jGraphFormat
 
 def benchmarkId = ResultHelper.createNewResultDir()
 ResultHelper.saveConfiguration(benchmarkId)
 def ec = new ExecutionConfig(2000, 4000)
 
-def minSize = 5
+def minSize = 1
 def maxSize = 5
 def timeout = 900
-def runs = 1
+def runs = 5
 
 println()
 println("############################################################")
@@ -38,8 +39,9 @@ def tools = [
 		//new JenaBenchmarkConfigBuilder().setInferencing(false),
 		//new JenaBenchmarkConfigBuilder().setInferencing(true),
 		//new MySqlBenchmarkConfigBuilder(),
-		new Neo4jBenchmarkConfigBuilder().setEngine(Neo4jEngine.CORE_API).setGraphFormat(Neo4jGraphFormat.CSV    ),
-		new Neo4jBenchmarkConfigBuilder().setEngine(Neo4jEngine.CYPHER ).setGraphFormat(Neo4jGraphFormat.GRAPHML),
+		new Neo4jBenchmarkConfigBuilder().setEngine(Neo4jEngine.CORE_API).setGraphFormat(Neo4jGraphFormat.CSV    ).setDeployment(Neo4jDeployment.EMBEDDED),
+		//new Neo4jBenchmarkConfigBuilder().setEngine(Neo4jEngine.CYPHER ).setGraphFormat(Neo4jGraphFormat.GRAPHML).setDeployment(Neo4jDeployment.IN_MEMORY),
+
 		//new SQLiteBenchmarkConfigBuilder(),
 		//new TinkerGraphBenchmarkConfigBuilder(),
 		//new ViatraBenchmarkConfigBuilder().setBackend(ViatraBackend.INCREMENTAL),
@@ -56,7 +58,7 @@ def workloads = [
 //	SwitchSet:         [ modelVariant: "repair", operations: [RailwayOperation.SWITCHSET        ], ],
 
 Inject: [
-		modelVariant: "inject",
+		modelVariant: "batch",
 		operations: [
 				//RailwayOperation.CONNECTEDSEGMENTS,
 				RailwayOperation.POSLENGTH,
@@ -76,7 +78,7 @@ Inject: [
 		queryTransformationCount: 12, // iterations
 ],
 Repair: [
-		modelVariant: "repair",
+		modelVariant: "batch",
 		operations: [
 				//RailwayOperation.CONNECTEDSEGMENTS_REPAIR,
 				RailwayOperation.POSLENGTH_REPAIR,
@@ -94,7 +96,7 @@ Repair: [
 def runBenchmarkSeries(BenchmarkConfigBaseBuilder configBaseBuilder, BenchmarkConfigBuilder configBuilder,
 					   ExecutionConfig ec, ModelSetConfig modelSetConfig) {
 	try {
-		for (def size = modelSetConfig.minSize; size <= modelSetConfig.maxSize; size *= 2) {
+		for (def size = modelSetConfig.minSize; size <= modelSetConfig.maxSize; size += 1) {
 			def modelFilename = "railway-${modelSetConfig.modelVariant}-${size}"
 
 			println("------------------------------------------------------------")

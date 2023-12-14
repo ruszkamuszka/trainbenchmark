@@ -6,7 +6,7 @@ import hu.bme.mit.trainbenchmark.generator.runner.GeneratorRunner
 import hu.bme.mit.trainbenchmark.neo4j.config.Neo4jGraphFormat;
 
 def ec = new ExecutionConfig(4000, 6000)
-def minSize = 5
+def minSize = 1
 def maxSize = 5
 
 def scenarios = [
@@ -18,7 +18,7 @@ def scenarios = [
 def formats = [
 		//new EmfGeneratorConfigBuilder(),
 		new Neo4jGraphGeneratorConfigBuilder().setGraphFormat(Neo4jGraphFormat.CSV),
-		new Neo4jGraphGeneratorConfigBuilder().setGraphFormat(Neo4jGraphFormat.GRAPHML),
+		//new Neo4jGraphGeneratorConfigBuilder().setGraphFormat(Neo4jGraphFormat.GRAPHML),
 		//new TinkerGraphGeneratorConfigBuilder().setGraphFormat(TinkerGraphFormat.GRAPHML),
 		//new RdfGeneratorConfigBuilder().setFormat(RdfFormat.TURTLE).setInferred(true),
 		//new RdfGeneratorConfigBuilder().setFormat(RdfFormat.TURTLE).setInferred(false),
@@ -29,7 +29,7 @@ def formats = [
 for (scenario in scenarios) {
 	formats.each { generatorConfigBuilder ->
 		try {
-			for (def size = minSize; size <= maxSize; size *= 2) {
+			for (def size = minSize; size <= maxSize; size += 1) {
 				println("Scenario: ${scenario}, size: ${size}")
 
 				def configBase = new GeneratorConfigBase(scenario, size)

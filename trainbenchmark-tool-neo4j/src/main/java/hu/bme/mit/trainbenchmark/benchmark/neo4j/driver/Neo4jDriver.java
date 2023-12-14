@@ -32,13 +32,10 @@ import org.neo4j.graphdb.schema.Schema;
 import org.neo4j.kernel.api.exceptions.KernelException;
 
 import javax.xml.stream.XMLStreamException;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -141,7 +138,7 @@ public class Neo4jDriver extends Driver {
 			FileUtils.deleteDirectory(databaseDirectory);
 		}
 
-		final String rawImportCommand = "%NEO4J_HOME%/bin/neo4j-admin import " //
+		final String rawImportCommand = "%NEO4J_HOME%bin/neo4j-admin.bat import " //
 			+ "--mode=csv " //
 			+ "--database=railway-database " //
 			+ "--id-type=INTEGER " //
@@ -164,8 +161,10 @@ public class Neo4jDriver extends Driver {
 			.replaceAll("%DB_PATH%", databaseDirectory.getPath()) //
 			.replaceAll("%MODEL_PREFIX%", modelPath);
 		final CommandLine cmdLine = CommandLine.parse(importCommand);
+		Map<String, String> environment = new HashMap<>(System.getenv());
+		environment.put("JAVA_HOME", "C:\\Program Files\\Java\\jdk1.8.0_202\\");
 		final DefaultExecutor executor = new DefaultExecutor();
-		final int exitValue = executor.execute(cmdLine);
+		final int exitValue = executor.execute(cmdLine, environment);
 		if (exitValue != 0) {
 			throw new IOException("Neo4j import failed");
 		}
@@ -178,6 +177,8 @@ public class Neo4jDriver extends Driver {
 		try (final Transaction t = graphDb.beginTx()) {
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(cypherFile));
 			String line = null;
+			//Map<String, Object> environment = new HashMap<>(System.getenv());
+			//environment.put("JAVA_HOME", "C:\\Program Files\\Java\\jdk1.8.0_202\\");
 			while ((line = bufferedReader.readLine()) != null) {
 				graphDb.execute(line);
 			}
